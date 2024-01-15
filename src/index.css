@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family:"FiraGO" ;
+    src: 
+    url("/ttf/firago-latin-100-normal.ttf"),
+    url("/ttf/firago-latin-200-normal.ttf"),
+    url("/ttf/firago-latin-300-normal.ttf"),
+    url("/ttf/firago-latin-400-normal.ttf"),
+    url("/ttf/firago-latin-500-normal.ttf"),
+    url("/ttf/firago-latin-600-normal.ttf"),
+    url("/ttf/firago-latin-700-normal.ttf"),
+    url("/ttf/firago-latin-800-normal.ttf"),
+    url("/ttf/firago-latin-900-normal.ttf"),
+}
+
 *{
     margin: 0;
     padding: 0;
