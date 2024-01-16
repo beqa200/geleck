@@ -4,8 +4,11 @@ import Home from "./Components.tsx/Home";
 import Blog from "./Components.tsx/Blog";
 import Addblog from "./Components.tsx/Addblog";
 import { Mycontext } from "./Components.tsx/Context";
+import { useState } from "react";
 
 function App() {
+  const [button, setButton] = useState<boolean>(false);
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -29,7 +32,12 @@ function App() {
 
   return (
     <>
-      <Mycontext.Provider value={{}}>
+      <Mycontext.Provider
+        value={{
+          button,
+          setButton,
+        }}
+      >
         <RouterProvider router={router} />
       </Mycontext.Provider>
     </>

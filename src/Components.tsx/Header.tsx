@@ -1,4 +1,3 @@
-import React from "react";
 import logo from "../../public/assets/redberry.png";
 
 export default function Header() {

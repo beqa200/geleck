@@ -1,18 +1,18 @@
 import { createContext, useContext } from "react";
 
-
-interface ContextInt{
-    
+interface ContextInt {
+  button: boolean;
+  setButton: (button: boolean) => void;
 }
 
-export const Mycontext = createContext<ContextInt|null>(null)
+export const Mycontext = createContext<ContextInt | null>(null);
 
-export function Context(){
-    const context = useContext(Mycontext)
+export function Context() {
+  const context = useContext(Mycontext);
 
-    if (context === undefined) {
-        throw new Error("useUserContext must be used with a MyContext");
-    }
+  if (context === undefined) {
+    throw new Error("useUserContext must be used with a MyContext");
+  }
 
-    return context
+  return context;
 }
