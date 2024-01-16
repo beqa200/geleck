@@ -19,12 +19,12 @@ function App() {
         {
           path:":blog",
           element:<Blog/>
+        },
+        {
+          path:"/add-blog",
+          element:<Addblog/>
         }
       ]
-    },
-    {
-      path:"/add-blog",
-      element:<Addblog/>
     }
   ])  
 
