@@ -33,17 +33,21 @@ function Blog() {
           </button>
         </div>
         {/* here i make components div */}
-        <div className="w-[408px]">
+        <div className="w-[408px] mt-[64px] mx-[76px]">
           <img src={hills} alt="here is component images" />
-          <div>
-            <h3 className="text-[#1A1A1F] text-[16px] font-medium">
-              ლილე კვარაცხელია
-            </h3>
-            <p className="text-[#85858D] text-[12px] font-normal">02.11.2023</p>
-            <h2 className="text-[#1A1A1F] text-[20px] font-medium leading-7">
+          <div className="mt-[24px]">
+            <div>
+              <h3 className="text-[#1A1A1F] text-[16px] font-medium">
+                ლილე კვარაცხელია
+              </h3>
+              <p className="text-[#85858D] text-[12px] font-normal mt-[8px]">
+                02.11.2023
+              </p>
+            </div>
+            <h2 className="text-[#1A1A1F] text-[2.2ch] font-medium leading-7 mt-[16px]">
               EOMM-ის მრჩეველთა საბჭოს ნინო ეგაძე შეუერთდა
             </h2>
-            <div>
+            <div className="mt-[16px] flex items-center gap-[16px]">
               <button className="w-[83px] h-[32px] bg-[#ffb82f14] rounded-[30px] text-[#D6961C] text-[12px] font-medium px-[16px] py-[8px]">
                 მარკეტი
               </button>
@@ -54,11 +58,11 @@ function Blog() {
                 ხელოვნური ინტელექტი
               </button>
             </div>
-            <p className="text-[#404049] text-[16px] font-normal">
+            <p className="text-[#404049] text-[1.7ch] font-normal mt-[16px] ">
               6 თვის შემდეგ ყველის ბრმა დეგუსტაციის დროც დადგა. მაქსიმალური
               სიზუსტისთვის, ეს პროცესი...
             </p>
-            <div>
+            <div className="flex items-center mt-[16px]">
               <p className="text-[#5D37F3] text-[14px] font-medium">
                 სრულად ნახვა
               </p>
