@@ -3,6 +3,8 @@ import { createContext, useContext } from "react";
 interface ContextInt {
   button: boolean;
   setButton: (button: boolean) => void;
+  data: object;
+  setData: (data: object) => void;
 }
 
 export const Mycontext = createContext<ContextInt | null>(null);
