@@ -1,10 +1,25 @@
 import { createContext, useContext } from "react";
 
+// interface categoryProps {
+//   name: string;
+//   text: string;
+//   bg: string;
+// }
+
+interface dataProps {
+  image: string;
+  name: string;
+  month: string;
+  title: string;
+  paragraph: string;
+  category?: string[];
+}
+
 interface ContextInt {
   button: boolean;
   setButton: (button: boolean) => void;
-  data: object;
-  setData: (data: object) => void;
+  data: dataProps[];
+  setData: (data: dataProps[]) => void;
 }
 
 export const Mycontext = createContext<ContextInt | null>(null);

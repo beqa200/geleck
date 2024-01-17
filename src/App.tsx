@@ -6,31 +6,66 @@ import Addblog from "./Components.tsx/Addblog";
 import { Mycontext } from "./Components.tsx/Context";
 import { useState } from "react";
 
+// interface categoryProps {
+//   name: string;
+// }
+
+interface dataProps {
+  image: string;
+  name: string;
+  month: string;
+  title: string;
+  paragraph: string;
+  category?: string[];
+}
+
 function App() {
-  const [data, setData] = useState<object>([
-    { image: "../public/assets/hills.png" },
-    { name: "ლილე კვარაცხელია" },
-    { month: "02.11.2023" },
-    { title: "EOMM-ის მრჩეველთა საბჭოს ნინო ეგაძე შეუერთდა" },
+  const [data, setData] = useState<dataProps[]>([
     {
+      image: "../public/assets/hills.png",
+      name: "ლილე კვარაცხელია",
+      month: "01.11.2023",
+      title: "EOMM-ის მრჩეველთა საბჭოს ნინო ეგაძე შეუერთდა",
+      paragraph:
+        "6 თვის შემდეგ ყველის ბრმა დეგუსტაციის დროც დადგა. მაქსიმალური სიზუსტისთვის, ეს პროცესი...",
+      category: [
+        "მარკეტი",
+        "აპლიკაცია",
+        "ხელოვნური ინტელექტი",
+        "UI/UX",
+        "კვლევა",
+        "Figma",
+      ],
+    },
+    {
+      image: "../public/assets/tennis.png",
+      name: "ტატო სამხარაძე",
+      month: "02.11.2023",
+      title: "EOMM-ის მრჩეველთა საბჭოს ნინო ეგაძე შეუერთდა",
       paragraph:
         "6 თვის შემდეგ ყველის ბრმა დეგუსტაციის დროც დადგა. მაქსიმალური სიზუსტისთვის, ეს პროცესი...",
     },
-
-    { image: "../public/assets/tennis.png" },
-    { name: "ტატო სამხარაძე" },
-    { month: "02.11.2023" },
-    { title: "EOMM-ის მრჩეველთა საბჭოს ნინო ეგაძე შეუერთდა" },
     {
+      image: "../public/assets/tennis.png",
+      name: "ტატო სამხარაძე",
+      month: "03.11.2023",
+      title: "EOMM-ის მრჩეველთა საბჭოს ნინო ეგაძე შეუერთდა",
       paragraph:
         "6 თვის შემდეგ ყველის ბრმა დეგუსტაციის დროც დადგა. მაქსიმალური სიზუსტისთვის, ეს პროცესი...",
     },
-
-    { image: "../public/assets/tennis.png" },
-    { name: "ტატო სამხარაძე" },
-    { month: "02.11.2023" },
-    { title: "EOMM-ის მრჩეველთა საბჭოს ნინო ეგაძე შეუერთდა" },
     {
+      image: "../public/assets/tennis.png",
+      name: "ტატო სამხარაძე",
+      month: "03.11.2023",
+      title: "EOMM-ის მრჩეველთა საბჭოს ნინო ეგაძე შეუერთდა",
+      paragraph:
+        "6 თვის შემდეგ ყველის ბრმა დეგუსტაციის დროც დადგა. მაქსიმალური სიზუსტისთვის, ეს პროცესი...",
+    },
+    {
+      image: "../public/assets/tennis.png",
+      name: "ტატო სამხარაძე",
+      month: "03.11.2023",
+      title: "EOMM-ის მრჩეველთა საბჭოს ნინო ეგაძე შეუერთდა",
       paragraph:
         "6 თვის შემდეგ ყველის ბრმა დეგუსტაციის დროც დადგა. მაქსიმალური სიზუსტისთვის, ეს პროცესი...",
     },
