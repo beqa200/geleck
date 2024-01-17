@@ -1,18 +1,37 @@
 import { createContext, useContext } from "react";
 
-
-interface ContextInt{
-    
+interface categoryProps {
+  id: number;
+  name: string;
+  text_color: string;
+  background_color: string;
 }
 
-export const Mycontext = createContext<ContextInt|null>(null)
+interface dataProps {
+  id: number;
+  image: string;
+  author: string;
+  month: string;
+  title: string;
+  paragraph: string;
+  category?: categoryProps[];
+}
 
-export function Context(){
-    const context = useContext(Mycontext)
+interface ContextInt {
+  button: boolean;
+  setButton: (button: boolean) => void;
+  data: dataProps[];
+  setData: (data: dataProps[]) => void;
+}
 
-    if (context === undefined) {
-        throw new Error("useUserContext must be used with a MyContext");
-    }
+export const Mycontext = createContext<ContextInt | null>(null);
 
-    return context
+export function Context() {
+  const context = useContext(Mycontext);
+
+  if (context === undefined) {
+    throw new Error("useUserContext must be used with a MyContext");
+  }
+
+  return context;
 }
