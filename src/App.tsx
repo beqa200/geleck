@@ -128,12 +128,13 @@ function App() {
           element: <Blog />,
         },
         {
-          path: "/add-blog",
-          element: <Addblog />,
-        },
-      ],
-    },
-  ]);
+          path:"/add-blog",
+          element:<Addblog/>
+        }
+      ]
+    }
+  ])  
+
 
   return (
     <>
