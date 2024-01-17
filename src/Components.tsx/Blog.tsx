@@ -2,21 +2,23 @@ import blogImage from "../../public/assets/blog.png";
 import arrow from "../../public/assets/blue-arrow.svg";
 import { useContext } from "react";
 import { Mycontext } from "./Context";
-// import { useState } from "react";
+import { useState } from "react";
 
 function Blog() {
   const context = useContext(Mycontext);
-  // const [selectedButton, setSelectedButton] = useState<string | null>(null);
-  const test = ["მარკეტი"];
+  const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
 
-  const filterItem = () => {
-    const newItem = context?.data.filter((newValue) => {
-      test.includes(newValue.category);
-      // comparing category for displaying data
-    });
-    console.log(newItem);
+  const handleButtonClick = (category: string) => {
+    setSelectedCategory([category]);
   };
 
+  const filteredData = selectedCategory
+    ? context?.data.filter((item) =>
+        item.category?.some((category) => selectedCategory.includes(category))
+      )
+    : context?.data;
+
+  console.log(filteredData);
   return (
     <>
       <div>
@@ -29,29 +31,44 @@ function Blog() {
         <div className="flex justify-center items-center gap-[24px] mt-[64px]">
           <button
             className="w-[83px] h-[32px] bg-[#ffb82f14] rounded-[30px] text-[#D6961C] text-[12px] font-medium px-[16px] py-[8px]"
-            onClick={() => filterItem()}
+            onClick={() => handleButtonClick("მარკეტი")}
           >
             მარკეტი
           </button>
-          <button className="w-[97px] h-[32px] justify-center bg-[#1cd67d14] rounded-[30px] text-[#15C972] text-[12px] font-medium px-[16px] py-[8px]">
+          <button
+            className="w-[97px] h-[32px] justify-center bg-[#1cd67d14] rounded-[30px] text-[#15C972] text-[12px] font-medium px-[16px] py-[8px]"
+            onClick={() => handleButtonClick("აპლიკაცია")}
+          >
             აპლიკაცია
           </button>
-          <button className="w-[178px] h-[32px] bg-[#EEE1F7] rounded-[30px] text-[#B71FDD] text-[11px] font-medium px-[16px] py-[8px]">
+          <button
+            className="w-[178px] h-[32px] bg-[#EEE1F7] rounded-[30px] text-[#B71FDD] text-[11px] font-medium px-[16px] py-[8px]"
+            onClick={() => handleButtonClick("ხელოვნური ინტელექტი")}
+          >
             ხელოვნური ინტელექტი
           </button>
-          <button className="w-[65px] h-[32px] bg-[#fa575714] rounded-[30px] text-[#DC2828] text-[12px] font-medium px-[16px] py-[8px]">
+          <button
+            className="w-[65px] h-[32px] bg-[#fa575714] rounded-[30px] text-[#DC2828] text-[12px] font-medium px-[16px] py-[8px]"
+            onClick={() => handleButtonClick("UI/UX")}
+          >
             UI/UX
           </button>
-          <button className="w-[77px] h-[32px] bg-[#E9EFE9] rounded-[30px] text-[#60BE16] text-[12px] font-medium px-[16px] py-[8px]">
+          <button
+            className="w-[77px] h-[32px] bg-[#E9EFE9] rounded-[30px] text-[#60BE16] text-[12px] font-medium px-[16px] py-[8px]"
+            onClick={() => handleButtonClick("კვლევა")}
+          >
             კვლევა
           </button>
-          <button className="w-[64px] h-[32px] bg-[#08d2ae14] rounded-[30px] text-[#1AC7A8] text-[12px] font-medium px-[16px] py-[8px]">
+          <button
+            className="w-[64px] h-[32px] bg-[#08d2ae14] rounded-[30px] text-[#1AC7A8] text-[12px] font-medium px-[16px] py-[8px]"
+            onClick={() => handleButtonClick("Figma")}
+          >
             Figma
           </button>
         </div>
-        ;{/* here i make components div */}
+        {/* here i make components div */}
         <div className="flex flex-wrap justify-evenly items-center mx-[76px] gap-x-[32px] gap-y-[56px] mb-[50px]">
-          {context?.data.map((item, index) => (
+          {filteredData?.map((item, index) => (
             <div className="w-[408px] mt-[64px]" key={index}>
               <img src={item.image} alt="here is component images" />
               <div className="mt-[24px]">
