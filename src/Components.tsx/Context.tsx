@@ -1,18 +1,20 @@
 import { createContext, useContext } from "react";
 
-// interface categoryProps {
-//   name: string;
-//   text: string;
-//   bg: string;
-// }
+interface categoryProps {
+  id: number;
+  name: string;
+  text_color: string;
+  background_color: string;
+}
 
 interface dataProps {
+  id: number;
   image: string;
-  name: string;
+  author: string;
   month: string;
   title: string;
   paragraph: string;
-  category?: string[];
+  category?: categoryProps[];
 }
 
 interface ContextInt {

@@ -1,7 +1,4 @@
-function Addblog(){
-    return(
-        <>
-        </>
-    )
+function Addblog() {
+  return <></>;
 }
-export default Addblog
+export default Addblog;
