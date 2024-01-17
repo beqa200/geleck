@@ -1,11 +1,7 @@
-import { useEffect } from "react"
-import { Outlet, useNavigate } from "react-router-dom"
+import { Outlet } from "react-router-dom"
 
 function Layout(){
-    const navigate = useNavigate()
-    useEffect(() => {
-        navigate("/home")
-    },[])
+    
     return(
         <>
         

@@ -21,6 +21,8 @@ function Addblog() {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
+    watch,
   } = useForm<Inputs>();
   const [categoryMenu, setCategoryMenu] = useState<boolean>(false);
   const [chosenCategory, setChosenCategory] = useState<chosencategory[]>([]);
@@ -29,94 +31,125 @@ function Addblog() {
   const [submited, setSubmited] = useState<boolean>(false);
   const [categoryErr, setCategoryErr] = useState<boolean>(false);
   const [emptyAut, setEmptyAut] = useState<boolean>(false);
-  const [length, setLength] = useState<boolean>(false)
+  const [length, setLength] = useState<boolean>(false);
   const [twoWord, setTwoWord] = useState<boolean>(false);
   const [georgian, setGeorgian] = useState<boolean>(false);
-  const author = useRef<any>()
+  const author = useRef<any>();
 
-  const [post, setPost] = useState<boolean>(false)
+  const [post, setPost] = useState<boolean>(false);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const Submit: SubmitHandler<Inputs> = (data: any) => {
     console.log(data);
-    localStorage.setItem("author",author.current.value)
-    localStorage.setItem("tittle", data.tittle)
-    localStorage.setItem("describe",data.describe)
-    localStorage.setItem("data", data.data)
-    localStorage.setItem("category",chosenCategory.join(",") )
-    localStorage.setItem("email",data.email)
-  }
+    localStorage.setItem("author", author.current.value);
+    localStorage.setItem("tittle", data.tittle);
+    localStorage.setItem("describe", data.describe);
+    localStorage.setItem("data", data.data);
+    localStorage.setItem("category", chosenCategory.join(","));
+    localStorage.setItem("email", data.email);
+  };
+
   const georgianOnlyRegex = /^[ა-ჰ\s]+$/;
-  let authorValue = localStorage.getItem("author")
-  let tittleValue = localStorage.getItem("tittle")
-  let describeValue = localStorage.getItem("describe")
-  let dataValue = localStorage.getItem("data")
-  let categoryValue = localStorage.getItem("category")
-  let emailValue = localStorage.getItem("email")
- 
-  
-//   console.log("emptyAut",emptyAut)
-//   console.log("!georgian",!georgian)
-//   console.log("twoWord",twoWord)
-//   console.log("length",length)
-//   console.log("errors.tittle?.type == required",errors.tittle?.type == "required")
-//   console.log("errors.describe?.type == required",errors.describe?.type == "required")
-//   console.log("errors.data",errors.data)
-//   console.log("categoryErr",categoryErr)
-//   console.log("errors.email?.type == pattern",errors.email?.type == "pattern")
 
+  // let emailValue = localStorage.getItem("email");
 
+  //   console.log("emptyAut",emptyAut)
+  //   console.log("!georgian",!georgian)
+  //   console.log("twoWord",twoWord)
+  //   console.log("length",length)
+  //   console.log("errors.tittle?.type == required",errors.tittle?.type == "required")
+  //   console.log("errors.describe?.type == required",errors.describe?.type == "required")
+  //   console.log("errors.data",errors.data)
+  //   console.log("categoryErr",categoryErr)
+  //   console.log("errors.email?.type == pattern",errors.email?.type == "pattern")
 
+  useEffect(() => {
+    let authorValue = localStorage.getItem("author");
+    if (authorValue) author.current.value =  authorValue
+    let tittleValue = localStorage.getItem("tittle");
+    if (tittleValue) setValue("tittle", tittleValue);
+    let describeValue = localStorage.getItem("describe");
+    if (describeValue) setValue("describe", describeValue);
+    let dataValue = localStorage.getItem("data");
+    if (dataValue) setValue("data", dataValue);
+    // let categoryValue = localStorage.getItem("category");
+    // if(categoryValue)setValue("category",categoryValue)
+    let emailValue = localStorage.getItem("email");
+    if (emailValue) setValue("email", emailValue);
+  }, []);
 
-useEffect(()=>{
-  if (author.current.value) {
-    console.log(author.current.value)
-  setEmptyAut(false)
-  if(author.current.value.length < 4){
-    setLength(true)
-  }else{
-    setLength(false)
-  }
-  if (author.current.value.split(" ").length < 2) {
-    setTwoWord(true);
-  } else {
-    setTwoWord(false);
-  }
-  if (georgianOnlyRegex.test(author.current.value)) {
-    setGeorgian(true);
-  } else {
-    setGeorgian(false);
-  }
-}else{
-  console.log("all err")
-    setEmptyAut(true)
-    setGeorgian(true)
-    setTwoWord(true)
-    setLength(true)
-}
+  // console.log(chosenCategory.toString())
+  // let srt = chosenCategory.toString
+  // console.log(srt.json())
 
+  useEffect(() => {
+    localStorage.setItem("tittle", watch("tittle"));
+  }, [watch("tittle")]);
 
+  useEffect(() => {
+    localStorage.setItem("describe", watch("describe"));
+  }, [watch("describe")]);
 
-},[submited])
+  useEffect(() => {
+    localStorage.setItem("data", watch("data"));
+  }, [watch("data")]);
 
-// //   function ONSubmit() {
-    // if()
-    // if(errors.author?.ref?.value.split(" ").length < 2){
-    //     setTwoWord(true)
-    // }else{
-    //     setTwoWord(false)
-    // }
-    // if(/^[ა-ჰ]+$/.test(errors.author?.ref?.value)){
-    //     setGeorgian(true)
-    // }else{
-    //     setGeorgian(false)
-    // }
-    // console.log(errors.author)
-//   }
-//   useEffect(() => {
-//     ONSubmit();
-//   }, [errors, handleSubmit]);
+  useEffect(() => {
+    localStorage.setItem("email", watch("email"));
+  }, [watch("email")]);
+
+  // if (author.current) {
+    useEffect(() => {
+      localStorage.setItem("author", author.current?.value);
+    }, [author.current?.value]);
+  // }
+
+  useEffect(() => {
+    if (author.current.value) {
+      console.log(author.current.value);
+      setEmptyAut(false);
+      if (author.current.value.length < 4) {
+        setLength(true);
+      } else {
+        setLength(false);
+      }
+      if (author.current.value.split(" ").length < 2) {
+        setTwoWord(true);
+      } else {
+        setTwoWord(false);
+      }
+      if (georgianOnlyRegex.test(author.current.value)) {
+        setGeorgian(true);
+      } else {
+        setGeorgian(false);
+      }
+    } else {
+      console.log("all err");
+      setEmptyAut(true);
+      setGeorgian(true);
+      setTwoWord(true);
+      setLength(true);
+    }
+  }, [submited]);
+
+  // //   function ONSubmit() {
+  // if()
+  // if(errors.author?.ref?.value.split(" ").length < 2){
+  //     setTwoWord(true)
+  // }else{
+  //     setTwoWord(false)
+  // }
+  // if(/^[ა-ჰ]+$/.test(errors.author?.ref?.value)){
+  //     setGeorgian(true)
+  // }else{
+  //     setGeorgian(false)
+  // }
+  // console.log(errors.author)
+  //   }
+  //   useEffect(() => {
+  //     ONSubmit();
+  //   }, [errors, handleSubmit]);
 
   //   console.log(Object.values(errors.author? errors?.author:[]).forEach((Element,index) => console.log(index,Element)));
   //   console.log(Object.values(errors?.author ?errors?.author:[]))
@@ -141,7 +174,7 @@ useEffect(()=>{
               ატვირთეთ ფოტო
             </h2>
 
-{/*//-------------------------------------------------------image-upload------------------------------------------------------- //*/}
+            {/*//-------------------------------------------------------image-upload------------------------------------------------------- //*/}
 
             {imgName ? (
               <div className="w-[100%] flex justify-between bg-[#F2F2FA] rounded-[12px] p-[16px] ">
@@ -179,8 +212,7 @@ useEffect(()=>{
             )}
           </div>
           <div className="flex justify-between py-[24px] ">
-
-{/* //----------------------------------------------author-input---------------------------------------------------------------------// */}
+            {/* //----------------------------------------------author-input---------------------------------------------------------------------// */}
 
             <div>
               <label
@@ -211,33 +243,32 @@ useEffect(()=>{
                     ref={author}
                     // value={authorValue?authorValue:""}
                     onChange={(e) => {
-                      
+                      localStorage.setItem("author", e.target.value);
                       if (e.target.value) {
-                        console.log(e.target.value)
-                      setEmptyAut(false)
-                      if(e.target.value.length < 4){
-                        setLength(true)
-                      }else{
-                        setLength(false)
-                      }
-                      if (e.target.value.split(" ").length < 2) {
-                        setTwoWord(true);
+                        console.log(author.current.value);
+                        setEmptyAut(false);
+                        if (e.target.value.length < 4) {
+                          setLength(true);
+                        } else {
+                          setLength(false);
+                        }
+                        if (e.target.value.split(" ").length < 2) {
+                          setTwoWord(true);
+                        } else {
+                          setTwoWord(false);
+                        }
+                        if (georgianOnlyRegex.test(e.target.value)) {
+                          setGeorgian(true);
+                        } else {
+                          setGeorgian(false);
+                        }
                       } else {
-                        setTwoWord(false);
-                      }
-                      if (georgianOnlyRegex.test(e.target.value)) {
+                        console.log("all err");
+                        setEmptyAut(true);
                         setGeorgian(true);
-                      } else {
-                        setGeorgian(false);
+                        setTwoWord(true);
+                        setLength(true);
                       }
-                    }else{
-                      console.log("all err")
-                        setEmptyAut(true)
-                        setGeorgian(true)
-                        setTwoWord(true)
-                        setLength(true)
-                    }
-                      
                     }}
                     // {...register("author", {
                     //   required: "empty",
@@ -261,8 +292,7 @@ useEffect(()=>{
                   <li
                     className={`${
                       submited
-                        ? emptyAut ||
-                          length
+                        ? emptyAut || length
                           ? "text-[#EA1919]"
                           : "text-[#14D81C]"
                         : " text-[#85858D]"
@@ -273,7 +303,7 @@ useEffect(()=>{
                   <li
                     className={`${
                       submited
-                        ? emptyAut|| twoWord
+                        ? emptyAut || twoWord
                           ? "text-[#EA1919]"
                           : "text-[#14D81C]"
                         : " text-[#85858D]"
@@ -296,7 +326,7 @@ useEffect(()=>{
               </label>
             </div>
 
-{/* //----------------------------------------------tittle-input---------------------------------------------------------------------// */}
+            {/* //----------------------------------------------tittle-input---------------------------------------------------------------------// */}
 
             <div>
               <label
@@ -344,7 +374,7 @@ useEffect(()=>{
             </div>
           </div>
 
-{/* //----------------------------------------------description-input---------------------------------------------------------------------// */}
+          {/* //----------------------------------------------description-input---------------------------------------------------------------------// */}
 
           <div className="flex flex-col gap-[8px]">
             <label className="text-[14px] text-[#1A1A1F] font-medium  flex flex-col gap-[8px]">
@@ -383,7 +413,7 @@ useEffect(()=>{
             </p>
           </div>
 
-{/* //----------------------------------------------data-input---------------------------------------------------------------------// */}
+          {/* //----------------------------------------------data-input---------------------------------------------------------------------// */}
 
           <div className="flex justify-between py-[24px] ">
             <label
@@ -406,7 +436,11 @@ useEffect(()=>{
                     : " border-[#E4E3EB]"
                 } px-[16px] py-[12px] rounded-[12px] `}
               >
-                <img className="w-[20px] h-[20px] "  src="/assets/calendar.svg" alt="calendar-icon" />
+                <img
+                  className="w-[20px] h-[20px] "
+                  src="/assets/calendar.svg"
+                  alt="calendar-icon"
+                />
                 <ReactInputMask
                   mask={"99.99.9999"}
                   maskChar={null}
@@ -417,7 +451,7 @@ useEffect(()=>{
               </div>
             </label>
 
-{/* //----------------------------------------------category-input---------------------------------------------------------------------// */}
+            {/* //----------------------------------------------category-input---------------------------------------------------------------------// */}
 
             <label
               className="text-[14px] text-[#1A1A1F] font-medium  flex flex-col gap-[8px]"
@@ -439,7 +473,7 @@ useEffect(()=>{
                     : " border-[#E4E3EB]"
                 } pl-[6px] pr-[14px] py-[6px] rounded-[12px] `}
               >
-                <div className="w-[100%] h-[100%] flex gap-[8px] overflow-x-scroll ">
+                <div className="w-[100%] h-[100%] flex gap-[8px] overflow-x-scroll  ">
                   {chosenCategory.map((item: chosencategory) => {
                     return (
                       <>
@@ -476,7 +510,7 @@ useEffect(()=>{
             </label>
           </div>
 
-{/* //----------------------------------------------email-input---------------------------------------------------------------------// */}
+          {/* //----------------------------------------------email-input---------------------------------------------------------------------// */}
 
           <label
             className="text-[14px] text-[#1A1A1F] font-medium  flex flex-col gap-[8px]"
@@ -525,11 +559,23 @@ useEffect(()=>{
             ) : null}
           </label>
 
-{/* //----------------------------------------------submit-button---------------------------------------------------------------------// */}
+          {/* //----------------------------------------------submit-button---------------------------------------------------------------------// */}
 
           <button
             type="submit"
-            className={` w-[288px] h-[40px] flex items-center justify-center  ${errors.email?.type != "pattern" && !categoryErr && !errors.data && errors.describe?.type != "required" && errors.tittle?.type != "required" && !length && !twoWord && georgian && !emptyAut ?"bg-[#5D37F3]":"bg-[#E4E3EB]"} rounded-[8px] mt-[40px] ml-[312px] `}
+            className={` w-[288px] h-[40px] flex items-center justify-center  ${
+              errors.email?.type != "pattern" &&
+              !categoryErr &&
+              !errors.data &&
+              errors.describe?.type != "required" &&
+              errors.tittle?.type != "required" &&
+              !length &&
+              !twoWord &&
+              georgian &&
+              !emptyAut
+                ? "bg-[#5D37F3]"
+                : "bg-[#E4E3EB]"
+            } rounded-[8px] mt-[40px] ml-[312px] `}
             onClick={() => {
               // console.log(Submit);
               setSubmited(true);
@@ -537,15 +583,23 @@ useEffect(()=>{
                 ? setCategoryErr(true)
                 : setCategoryErr(false);
 
-                errors.email?.type != "pattern" && !categoryErr && !errors.data && errors.describe?.type != "required" && errors.tittle?.type != "required" && !length && !twoWord && georgian && !emptyAut ? setPost(true) :null
-
+              errors.email?.type != "pattern" &&
+              !categoryErr &&
+              !errors.data &&
+              errors.describe?.type != "required" &&
+              errors.tittle?.type != "required" &&
+              !length &&
+              !twoWord &&
+              georgian &&
+              !emptyAut
+                ? setPost(true)
+                : null;
             }}
           >
             <p className="text-[14px] text-[#FFF] font-medium ">გამოქვეყნება</p>
           </button>
 
-{/* //---------------------------------------------------------------------------------------------------------------------------------// */}
-
+          {/* //---------------------------------------------------------------------------------------------------------------------------------// */}
 
           <div
             className={`${
@@ -694,18 +748,42 @@ useEffect(()=>{
             setImgName(e.target.value);
           }}
         />
-        <div className={`w-[100vw] h-[100%] bg-[#00000078] flex items-center justify-center absolute top-0 left-0 ${post?"":"hidden"} `} >
-      <div className={`w-[480px] h-[300px] flex flex-col items-center bg-[#FFF] px-[24px] pb-[40px] pt-[20px]   rounded-[12px] `} >
-        <div className="w-[100%] flex justify-end mb-[20px]" >
-          <img className="w-[24px] h-[24px] " src="/images/black-cross.svg" alt="" />
+        <div
+          className={`w-[100vw] h-[100%] bg-[#00000078] flex items-center justify-center absolute top-0 left-0 ${
+            post ? "" : "hidden"
+          } `}
+        >
+          <div
+            className={`w-[480px] h-[300px] flex flex-col items-center bg-[#FFF] px-[24px] pb-[40px] pt-[20px]   rounded-[12px] `}
+          >
+            <div className="w-[100%] flex justify-end mb-[20px]">
+              <img
+                className="w-[24px] h-[24px] "
+                src="/images/black-cross.svg"
+                alt=""
+              />
+            </div>
+            <img
+              className="mb-[16px]"
+              src="/images/tick-circle.svg"
+              alt="accepted"
+            />
+            <h1 className="text-[20px] text-[#1A1A1F] font-bold  mb-[48px] ">
+              ჩანაწი წარმატებით დაემატა
+            </h1>
+            <div
+              className="w-[100%] py-[10px] flex justify-center bg-[#5D37F3] rounded-[8px] "
+              onClick={() => {
+                navigate("/home"), setPost(false);
+              }}
+            >
+              <p className="text-[14px] text-[#FFF] ">
+                მთავარ გვერდზე დაბრუნება
+              </p>
+            </div>
+          </div>
         </div>
-          <img className="mb-[16px]" src="/images/tick-circle.svg" alt="accepted" />
-          <h1 className="text-[20px] text-[#1A1A1F] font-bold  mb-[48px] " >ჩანაწი წარმატებით დაემატა</h1>
-          <div className="w-[100%] py-[10px] flex justify-center bg-[#5D37F3] rounded-[8px] " onClick={() => {navigate("/home"),setPost(false)}} ><p className="text-[14px] text-[#FFF] " >მთავარ გვერდზე დაბრუნება</p></div>
-      </div>
-      </div>
       </section>
-      
     </>
   );
 }
