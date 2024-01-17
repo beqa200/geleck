@@ -1,6 +1,7 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import ReactInputMask from "react-input-mask";
+import { useNavigate } from "react-router-dom";
 
 interface chosencategory {
   category: string;
@@ -31,16 +32,75 @@ function Addblog() {
   const [length, setLength] = useState<boolean>(false)
   const [twoWord, setTwoWord] = useState<boolean>(false);
   const [georgian, setGeorgian] = useState<boolean>(false);
+  const author = useRef<any>()
+
+  const [post, setPost] = useState<boolean>(false)
+
+  const navigate = useNavigate()
 
   const Submit: SubmitHandler<Inputs> = (data: any) => {
     console.log(data);
-  };
-
+    localStorage.setItem("author",author.current.value)
+    localStorage.setItem("tittle", data.tittle)
+    localStorage.setItem("describe",data.describe)
+    localStorage.setItem("data", data.data)
+    localStorage.setItem("category",chosenCategory.join(",") )
+    localStorage.setItem("email",data.email)
+  }
   const georgianOnlyRegex = /^[ა-ჰ\s]+$/;
+  let authorValue = localStorage.getItem("author")
+  let tittleValue = localStorage.getItem("tittle")
+  let describeValue = localStorage.getItem("describe")
+  let dataValue = localStorage.getItem("data")
+  let categoryValue = localStorage.getItem("category")
+  let emailValue = localStorage.getItem("email")
+ 
+  
+//   console.log("emptyAut",emptyAut)
+//   console.log("!georgian",!georgian)
+//   console.log("twoWord",twoWord)
+//   console.log("length",length)
+//   console.log("errors.tittle?.type == required",errors.tittle?.type == "required")
+//   console.log("errors.describe?.type == required",errors.describe?.type == "required")
+//   console.log("errors.data",errors.data)
+//   console.log("categoryErr",categoryErr)
+//   console.log("errors.email?.type == pattern",errors.email?.type == "pattern")
 
 
 
-//   function ONSubmit() {
+
+useEffect(()=>{
+  if (author.current.value) {
+    console.log(author.current.value)
+  setEmptyAut(false)
+  if(author.current.value.length < 4){
+    setLength(true)
+  }else{
+    setLength(false)
+  }
+  if (author.current.value.split(" ").length < 2) {
+    setTwoWord(true);
+  } else {
+    setTwoWord(false);
+  }
+  if (georgianOnlyRegex.test(author.current.value)) {
+    setGeorgian(true);
+  } else {
+    setGeorgian(false);
+  }
+}else{
+  console.log("all err")
+    setEmptyAut(true)
+    setGeorgian(true)
+    setTwoWord(true)
+    setLength(true)
+}
+
+
+
+},[submited])
+
+// //   function ONSubmit() {
     // if()
     // if(errors.author?.ref?.value.split(" ").length < 2){
     //     setTwoWord(true)
@@ -63,12 +123,13 @@ function Addblog() {
 
   return (
     <>
-      <section className=" w-[100vw] h-[100vh] flex flex-col items-center bg-[#FBFAFF]  pt-[40px] relative pb-[100px] ">
+      <section className=" w-[100vw] min-h-[100vh] flex flex-col items-center bg-[#FBFAFF]  pt-[40px] relative pb-[100px] ">
         <button className="w-[44px] h-[44px] absolute top-[40px] left-[76px] ">
           <img
             className="w-[100%] h-[100%] "
             src="/assets/Arrow.svg"
             alt="go-back"
+            onClick={() => history.back()}
           />
         </button>
         <form className="w-[600px] relative " onSubmit={handleSubmit(Submit)}>
@@ -104,9 +165,9 @@ function Addblog() {
                   alt="add-photo"
                 />
                 <p className="text-[14px] text-[#1A1A1F] ">
-                  ჩააგდეთ ფაილი აქ ან{" "}
+                  ჩააგდეთ ფაილი აქ ან
                   <a
-                    className="font-medium underline underline-offset-2 "
+                    className="font-medium underline underline-offset-2 cursor-pointer "
                     onClick={() => {
                       imgUpload.current?.click();
                     }}
@@ -147,9 +208,12 @@ function Addblog() {
                     type="text"
                     id="author"
                     placeholder="შეიყვნეთ ავტორი"
-                    // ref={Author}
+                    ref={author}
+                    // value={authorValue?authorValue:""}
                     onChange={(e) => {
+                      
                       if (e.target.value) {
+                        console.log(e.target.value)
                       setEmptyAut(false)
                       if(e.target.value.length < 4){
                         setLength(true)
@@ -167,7 +231,11 @@ function Addblog() {
                         setGeorgian(false);
                       }
                     }else{
+                      console.log("all err")
                         setEmptyAut(true)
+                        setGeorgian(true)
+                        setTwoWord(true)
+                        setLength(true)
                     }
                       
                     }}
@@ -257,6 +325,7 @@ function Addblog() {
                     // name="tittle"
                     id="tittle"
                     placeholder="შეიყვნეთ სათაური"
+                    // value={tittleValue?tittleValue:""}
                     {...register("tittle", { required: true, minLength: 2 })}
                   />
                 </div>
@@ -297,13 +366,14 @@ function Addblog() {
                   : " border-[#E4E3EB]"
               } px-[16px] py-[12px] text-[14px] text-[#1A1A1F] rounded-[12px] appearance-none outline-none `}
               placeholder="შეიყვნეთ აღწერა"
+              // value={describeValue?describeValue:""}
               {...register("describe", { required: true })}
               //   onChange={(e) => console.log(e.target.value)}
             />
             <p
               className={`text-[12px] ${
                 submited
-                  ? errors.tittle?.type == "required"
+                  ? errors.describe?.type == "required"
                     ? "text-[#EA1919]"
                     : "text-[#14D81C]"
                   : " text-[#85858D]"
@@ -341,6 +411,7 @@ function Addblog() {
                   mask={"99.99.9999"}
                   maskChar={null}
                   className="text-[14px] text-[#1A1A1F] appearance-none bg-transparent outline-none "
+                  // value={dataValue?dataValue:""}
                   {...register("data", { required: true, minLength: 10 })}
                 />
               </div>
@@ -396,7 +467,7 @@ function Addblog() {
                   })}
                 </div>
                 <img
-                  className="w-[20px] h-[20px] ml-[5px] "
+                  className="w-[20px] h-[20px] ml-[5px] cursor-pointer "
                   src="/assets/arrow-down.svg"
                   alt="category-open"
                   onClick={() => setCategoryMenu(!categoryMenu)}
@@ -458,14 +529,16 @@ function Addblog() {
 
           <button
             type="submit"
-            className=" w-[288px] h-[40px] flex items-center justify-center  bg-[#E4E3EB] rounded-[8px] mt-[40px] ml-[312px] "
+            className={` w-[288px] h-[40px] flex items-center justify-center  ${errors.email?.type != "pattern" && !categoryErr && !errors.data && errors.describe?.type != "required" && errors.tittle?.type != "required" && !length && !twoWord && georgian && !emptyAut ?"bg-[#5D37F3]":"bg-[#E4E3EB]"} rounded-[8px] mt-[40px] ml-[312px] `}
             onClick={() => {
-              console.log(Submit);
+              // console.log(Submit);
               setSubmited(true);
-
               chosenCategory.length == 0
                 ? setCategoryErr(true)
                 : setCategoryErr(false);
+
+                errors.email?.type != "pattern" && !categoryErr && !errors.data && errors.describe?.type != "required" && errors.tittle?.type != "required" && !length && !twoWord && georgian && !emptyAut ? setPost(true) :null
+
             }}
           >
             <p className="text-[14px] text-[#FFF] font-medium ">გამოქვეყნება</p>
@@ -621,7 +694,18 @@ function Addblog() {
             setImgName(e.target.value);
           }}
         />
+        <div className={`w-[100vw] h-[100%] bg-[#00000078] flex items-center justify-center absolute top-0 left-0 ${post?"":"hidden"} `} >
+      <div className={`w-[480px] h-[300px] flex flex-col items-center bg-[#FFF] px-[24px] pb-[40px] pt-[20px]   rounded-[12px] `} >
+        <div className="w-[100%] flex justify-end mb-[20px]" >
+          <img className="w-[24px] h-[24px] " src="/images/black-cross.svg" alt="" />
+        </div>
+          <img className="mb-[16px]" src="/images/tick-circle.svg" alt="accepted" />
+          <h1 className="text-[20px] text-[#1A1A1F] font-bold  mb-[48px] " >ჩანაწი წარმატებით დაემატა</h1>
+          <div className="w-[100%] py-[10px] flex justify-center bg-[#5D37F3] rounded-[8px] " onClick={() => {navigate("/home"),setPost(false)}} ><p className="text-[14px] text-[#FFF] " >მთავარ გვერდზე დაბრუნება</p></div>
+      </div>
+      </div>
       </section>
+      
     </>
   );
 }
