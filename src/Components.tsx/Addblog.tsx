@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import ReactInputMask from "react-input-mask";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface chosencategory {
   category: string;
@@ -35,6 +35,7 @@ function Addblog() {
   const [twoWord, setTwoWord] = useState<boolean>(true);
   const [georgian, setGeorgian] = useState<boolean>(true);
   const author = useRef<any>();
+  
 
   const [post, setPost] = useState<boolean>(false);
 
@@ -46,61 +47,50 @@ function Addblog() {
     localStorage.setItem("tittle", data.tittle);
     localStorage.setItem("describe", data.describe);
     localStorage.setItem("data", data.data);
-    localStorage.setItem("category", chosenCategory.join(","));
     localStorage.setItem("email", data.email);
   };
 
   const georgianOnlyRegex = /^[ა-ჰ\s]+$/;
 
-  // let emailValue = localStorage.getItem("email");
+  window.addEventListener("popstate", () => {
+    localStorage.setItem("author", "");
+    localStorage.setItem("tittle", "");
+    localStorage.setItem("describe", "");
+    localStorage.setItem("data", "");
+    localStorage.setItem("category", "");
+    localStorage.setItem("email", "");
+    setSubmited(false);
+  });
+  console.log(submited)
 
-  //   console.log("emptyAut",emptyAut)
-  //   console.log("!georgian",!georgian)
-  //   console.log("twoWord",twoWord)
-  //   console.log("length",length)
-  //   console.log("errors.tittle?.type == required",errors.tittle?.type == "required")
-  //   console.log("errors.describe?.type == required",errors.describe?.type == "required")
-  //   console.log("errors.data",errors.data)
-  //   console.log("categoryErr",categoryErr)
-  //   console.log("errors.email?.type == pattern",errors.email?.type == "pattern")
-  const [categoryValue,setCategoryValue] = useState< any[]>([])
+
+  const [categoryValue, setCategoryValue] = useState<any[]>([]);
   useEffect(() => {
     let authorValue = localStorage.getItem("author");
-    if (authorValue) author.current.value =  authorValue
+    if (authorValue) author.current.value = authorValue;
     let tittleValue = localStorage.getItem("tittle");
     if (tittleValue) setValue("tittle", tittleValue);
     let describeValue = localStorage.getItem("describe");
     if (describeValue) setValue("describe", describeValue);
     let dataValue = localStorage.getItem("data");
     if (dataValue) setValue("data", dataValue);
-    
-    
-  //   if(categoryValue){try {
-  //     setChosenCategory(JSON.parse(categoryValue));
-  //   } catch (error) {
-  //     console.error("Error parsing JSON:", error);
-  //   }
-  // }
+
+ 
     let emailValue = localStorage.getItem("email");
     if (emailValue) setValue("email", emailValue);
+    setSubmited(false);
   }, []);
 
-  // console.log(JSON.stringify(chosenCategory))
-  // let srt = JSON.stringify(chosenCategory)
-  // console.log(JSON.parse(srt))
-  // console.log(chosenCategory)
-  //   console.log(localStorage.getItem("category"))
-  //   console.log(JSON.parse(localStorage.getItem("category")))
-  //   console.log(categoryValue)
-  // console.log(errors.data)
+  
 
-  useEffect(() =>{
-    chosenCategory.length == 0
-                ? setCategoryErr(true)
-                : setCategoryErr(false)
-    chosenCategory? localStorage.setItem("category",JSON.stringify(chosenCategory)):null
-    setCategoryValue(JSON.parse(localStorage.getItem("category")))
-  },[chosenCategory])
+  useEffect(() => {
+    chosenCategory.length == 0 ? setCategoryErr(true) : setCategoryErr(false);
+    chosenCategory
+      ? localStorage.setItem("category", JSON.stringify(chosenCategory))
+      : null;
+const storedCategory = localStorage.getItem("category");
+if(storedCategory) setCategoryValue(JSON.parse(storedCategory));
+  }, [chosenCategory]);
 
   useEffect(() => {
     localStorage.setItem("tittle", watch("tittle"));
@@ -119,9 +109,9 @@ function Addblog() {
   }, [watch("email")]);
 
   // if (author.current) {
-    useEffect(() => {
-      localStorage.setItem("author", author.current?.value);
-    }, [author.current?.value]);
+  useEffect(() => {
+    localStorage.setItem("author", author.current?.value);
+  }, [author.current?.value]);
   // }
 
   useEffect(() => {
@@ -181,7 +171,15 @@ function Addblog() {
             className="w-[100%] h-[100%] "
             src="/images/Arrow.svg"
             alt="go-back"
-            onClick={() => history.back()}
+            onClick={() => {
+              history.back(), localStorage.setItem("author", "");
+              localStorage.setItem("tittle", "");
+              localStorage.setItem("describe", "");
+              localStorage.setItem("data", "");
+              localStorage.setItem("category", "");
+              localStorage.setItem("email", "");
+              setSubmited(false);
+            }}
           />
         </button>
         <form className="w-[600px] relative " onSubmit={handleSubmit(Submit)}>
@@ -443,13 +441,15 @@ function Addblog() {
               <div
                 className={`w-[288px] h-[44px] flex gap-[12px] ${
                   submited
-                    ? errors.data?.type == "required" || errors.data?.type == "minLength" 
+                    ? errors.data?.type == "required" ||
+                      errors.data?.type == "minLength"
                       ? "bg-[#ea191933]"
                       : "bg-[#14d81c33]"
                     : "bg-[#FCFCFD]"
                 } border border-solid ${
                   submited
-                    ? errors.data?.type == "required" || errors.data?.type == "minLength"
+                    ? errors.data?.type == "required" ||
+                      errors.data?.type == "minLength"
                       ? "border-[#EA1919]"
                       : "border-[#14D81C]"
                     : " border-[#E4E3EB]"
@@ -599,8 +599,6 @@ function Addblog() {
             onClick={() => {
               // console.log(Submit);
               setSubmited(true);
-              ;
-
               errors.email?.type != "pattern" &&
               !categoryErr &&
               errors.data?.type != "required" &&
@@ -794,7 +792,15 @@ function Addblog() {
             <div
               className="w-[100%] py-[10px] flex justify-center bg-[#5D37F3] rounded-[8px] "
               onClick={() => {
-                navigate("/home"), setPost(false);
+                navigate("/home"),
+                  setPost(false),
+                  localStorage.setItem("author", "");
+                localStorage.setItem("tittle", "");
+                localStorage.setItem("describe", "");
+                localStorage.setItem("data", "");
+                localStorage.setItem("category", "");
+                localStorage.setItem("email", "");
+                setSubmited(false);
               }}
             >
               <p className="text-[14px] text-[#FFF] ">
