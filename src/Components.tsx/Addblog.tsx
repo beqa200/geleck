@@ -175,9 +175,7 @@ function Addblog() {
             <h2 className="text-[14px] text-[#1A1A1F] font-medium  ">
               ატვირთეთ ფოტო
             </h2>
-
             {/*//-------------------------------------------------------image-upload------------------------------------------------------- //*/}
-
             {imgName ? (
               <div className="w-[100%] flex justify-between bg-[#F2F2FA] rounded-[12px] p-[16px] ">
                 <div className="flex gap-[12px]">
