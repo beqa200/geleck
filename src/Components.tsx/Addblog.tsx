@@ -63,7 +63,7 @@ function Addblog() {
   //   console.log("errors.data",errors.data)
   //   console.log("categoryErr",categoryErr)
   //   console.log("errors.email?.type == pattern",errors.email?.type == "pattern")
-
+  const [categoryValue,setCategoryValue] = useState< any[]>([])
   useEffect(() => {
     let authorValue = localStorage.getItem("author");
     if (authorValue) author.current.value =  authorValue
@@ -73,13 +73,14 @@ function Addblog() {
     if (describeValue) setValue("describe", describeValue);
     let dataValue = localStorage.getItem("data");
     if (dataValue) setValue("data", dataValue);
-    let categoryValue = localStorage.getItem("category");
-    if(categoryValue){try {
-      setChosenCategory(JSON.parse(categoryValue));
-    } catch (error) {
-      console.error("Error parsing JSON:", error);
-    }
-  }
+    
+    
+  //   if(categoryValue){try {
+  //     setChosenCategory(JSON.parse(categoryValue));
+  //   } catch (error) {
+  //     console.error("Error parsing JSON:", error);
+  //   }
+  // }
     let emailValue = localStorage.getItem("email");
     if (emailValue) setValue("email", emailValue);
   }, []);
@@ -87,14 +88,18 @@ function Addblog() {
   // console.log(JSON.stringify(chosenCategory))
   // let srt = JSON.stringify(chosenCategory)
   // console.log(JSON.parse(srt))
-
-  console.log(errors.data)
+  // console.log(chosenCategory)
+  //   console.log(localStorage.getItem("category"))
+  //   console.log(JSON.parse(localStorage.getItem("category")))
+  //   console.log(categoryValue)
+  // console.log(errors.data)
 
   useEffect(() =>{
     chosenCategory.length == 0
                 ? setCategoryErr(true)
                 : setCategoryErr(false)
     chosenCategory? localStorage.setItem("category",JSON.stringify(chosenCategory)):null
+    setCategoryValue(JSON.parse(localStorage.getItem("category")))
   },[chosenCategory])
 
   useEffect(() => {
@@ -121,7 +126,7 @@ function Addblog() {
 
   useEffect(() => {
     if (author.current.value) {
-      console.log(author.current.value);
+      // console.log(author.current.value);
       setEmptyAut(false);
       if (author.current.value.length < 4) {
         setLength(true);
@@ -488,7 +493,7 @@ function Addblog() {
                 } pl-[6px] pr-[14px] py-[6px] rounded-[12px] `}
               >
                 <div className="w-[100%] h-[100%] flex gap-[8px] overflow-x-scroll  ">
-                  {chosenCategory.map((item: chosencategory) => {
+                  {categoryValue.map((item: chosencategory) => {
                     return (
                       <>
                         <div

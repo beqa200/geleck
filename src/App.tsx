@@ -19,7 +19,7 @@ function App() {
           element: <Blog />,
         },
         {
-          path:"add-blog",
+          path:"/add-blog",
           element:<Addblog/>
         }
       ]
