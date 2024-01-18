@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 
 //pushis testi
 
-
 interface chosencategory {
   category: string;
   color: string;
@@ -97,7 +96,8 @@ function Addblog() {
 
   useEffect(() => {
     chosenCategory.length == 0 ? setCategoryErr(true) : setCategoryErr(false);
-   if(chosenCategory.length > 0) localStorage.setItem("category", JSON.stringify(chosenCategory));
+    if (chosenCategory.length > 0)
+      localStorage.setItem("category", JSON.stringify(chosenCategory));
   }, [chosenCategory]);
 
   useEffect(() => {
@@ -472,13 +472,27 @@ function Addblog() {
                     return (
                       <>
                         <div
-                          className={` ${item.category == "ხელოვნური ინტელექტი"?"min-w-[210px]": item.category == "მარკეტი"?"min-w-[107px]":item.category == "აპლიკაცია"?"min-w-[121px]":item.category == "UI/UX"?"min-w-[89PX]":item.category == "კვლევა"?"min-w-[101px]":"min-w-[88px]"} flex gap-[8px] items-center px-[12px]  bg-[${item.color}] rounded-[30px] `}
+                          className={` ${
+                            item.category == "ხელოვნური ინტელექტი"
+                              ? "min-w-[210px]"
+                              : item.category == "მარკეტი"
+                              ? "min-w-[107px]"
+                              : item.category == "აპლიკაცია"
+                              ? "min-w-[121px]"
+                              : item.category == "UI/UX"
+                              ? "min-w-[89PX]"
+                              : item.category == "კვლევა"
+                              ? "min-w-[101px]"
+                              : "min-w-[88px]"
+                          } flex gap-[8px] items-center px-[12px]  bg-[${
+                            item.color
+                          }] rounded-[30px] `}
                         >
                           <p className=" w-[100%] text-[12px] text-center text-[#FFF] font-medium ">
                             {item.category}
                           </p>
                           <img
-                            className="w-[16px] h-[16px] "
+                            className="w-[16px] h-[16px] cursor-pointer"
                             src="/images/add.svg"
                             alt="delete-categroy"
                             onClick={() =>
@@ -495,8 +509,8 @@ function Addblog() {
                   })}
                 </div>
                 <img
-                  className="w-[20px] h-[20px] ml-[5px] cursor-pointer "
-                  src="/assets/arrow-down.svg"
+                  className="w-[20px] h-[20px] ml-[5px] cursor-pointer"
+                  src="/images/arrow-down.svg"
                   alt="category-open"
                   onClick={() => setCategoryMenu(!categoryMenu)}
                 />
@@ -604,13 +618,17 @@ function Addblog() {
           >
             <div className="flex gap-[8px]">
               <div
-                className={` px-[16px] py-[8px] cursor-pointer ${
-                  chosenCategory.find((element) => element.category == "მარკეტი")
+                className={` px-[16px] py-[8px] cursor-pointer  ${
+                  chosenCategory.find(
+                    (element) => element.category == "მარკეტი"
+                  )
                     ? "bg-[#FFB82F] text-[#FFF]"
-                    : "bg-[#FFB82F14] text-[#D6961C]"
+                    : "bg-[#FFB82F14] text-[#D6961C] hover:bg-[#ffb82f7f] hover:text-white"
                 } rounded-[30px] `}
                 onClick={
-                  chosenCategory.find((element) => element.category == "მარკეტი")
+                  chosenCategory.find(
+                    (element) => element.category == "მარკეტი"
+                  )
                     ? () => {}
                     : () => {
                         setChosenCategory([
@@ -628,7 +646,7 @@ function Addblog() {
                     (element) => element.category == "აპლიკაცია"
                   )
                     ? "bg-[#1AC7A8] text-[#FFF]"
-                    : "bg-[#1CD67D14] text-[#15C972]"
+                    : "bg-[#1CD67D14] text-[#15C972] hover:bg-[#1ac7a87f] hover:text-white"
                 } rounded-[30px] `}
                 onClick={
                   chosenCategory.find(
@@ -652,7 +670,7 @@ function Addblog() {
                   (element) => element.category == "ხელოვნური ინტელექტი"
                 )
                   ? "bg-[#B71FDD] text-[#FFF]"
-                  : "bg-[#B11CD614] text-[#B71FDD]"
+                  : "bg-[#B11CD614] text-[#B71FDD] hover:bg-[#b71fdd7f] hover:text-white"
               } rounded-[30px] `}
               onClick={
                 chosenCategory.find(
@@ -676,7 +694,7 @@ function Addblog() {
                 className={`px-[16px] py-[8px] cursor-pointer ${
                   chosenCategory.find((element) => element.category == "UI/UX")
                     ? "bg-[#DC2828] text-[#FFF]"
-                    : "bg-[#FA575714] text-[#DC2828]"
+                    : "bg-[#FA575714] text-[#DC2828] hover:bg-[#dc28287f] hover:text-white"
                 } rounded-[30px]`}
                 onClick={
                   chosenCategory.find((element) => element.category == "UI/UX")
@@ -695,7 +713,7 @@ function Addblog() {
                 className={`px-[16px] py-[8px] cursor-pointer ${
                   chosenCategory.find((element) => element.category == "კვლევა")
                     ? "bg-[#60BE16] text-[#FFF]"
-                    : "bg-[#70CF2514] text-[#60BE16]"
+                    : "bg-[#70CF2514] text-[#60BE16] hover:bg-[#60be167f] hover:text-white"
                 } rounded-[30px]`}
                 onClick={
                   chosenCategory.find((element) => element.category == "კვლევა")
@@ -714,7 +732,7 @@ function Addblog() {
                 className={`px-[16px] py-[8px] cursor-pointer ${
                   chosenCategory.find((element) => element.category == "Figma")
                     ? "bg-[#1AC7A8] text-[#FFF]"
-                    : "bg-[#08D2AE14] text-[#1AC7A8]"
+                    : "bg-[#08D2AE14] text-[#1AC7A8] hover:bg-[#1ac7a87f] hover:text-white"
                 } rounded-[30px]`}
                 onClick={
                   chosenCategory.find((element) => element.category == "Figma")

@@ -116,24 +116,23 @@ function App() {
 
   const router = createBrowserRouter([
     {
-      element:<Layout/>,
-      children:[
+      element: <Layout />,
+      children: [
         {
-          path:"/",
-          element:<Home/>
+          path: "/",
+          element: <Home />,
         },
         {
           path: ":blog",
           element: <Blog />,
         },
         {
-          path:"/add-blog",
-          element:<Addblog/>
-        }
-      ]
-    }
-  ])  
-
+          path: "/add-blog",
+          element: <Addblog />,
+        },
+      ],
+    },
+  ]);
 
   return (
     <>
