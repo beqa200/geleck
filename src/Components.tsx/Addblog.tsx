@@ -3,6 +3,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import ReactInputMask from "react-input-mask";
 import { useNavigate } from "react-router-dom";
 
+//pushis testi
+
 
 interface chosencategory {
   category: string;
