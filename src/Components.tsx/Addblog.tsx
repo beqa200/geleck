@@ -3,6 +3,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import ReactInputMask from "react-input-mask";
 import { useNavigate } from "react-router-dom";
 
+//pushis testi
+
+
 interface chosencategory {
   category: string;
   color: string;
@@ -167,16 +170,14 @@ function Addblog() {
           />
         </button>
         <form className="w-[600px] relative " onSubmit={handleSubmit(Submit)}>
-          <h1 className="text-[32px] text-[#1A1A1F] text-left font-bold mb-[24px] ">
+          <h1 className="text-[32px] text-[#1A1A1F] text-left font-bold mb-[40px] ">
             ბლოგის დამატება
           </h1>
           <div className="flex flex-col gap-[8px] ">
             <h2 className="text-[14px] text-[#1A1A1F] font-medium  ">
               ატვირთეთ ფოტო
             </h2>
-
             {/*//-------------------------------------------------------image-upload------------------------------------------------------- //*/}
-
             {imgName ? (
               <div className="w-[100%] flex justify-between bg-[#F2F2FA] rounded-[12px] p-[16px] ">
                 <div className="flex gap-[12px]">
@@ -431,7 +432,7 @@ function Addblog() {
               >
                 <img
                   className="w-[20px] h-[20px] "
-                  src="/image/calendar.svg"
+                  src="/images/calendar.svg"
                   alt="calendar-icon"
                 />
                 <ReactInputMask
@@ -466,14 +467,14 @@ function Addblog() {
                     : " border-[#E4E3EB]"
                 } pl-[6px] pr-[14px] py-[6px] rounded-[12px] `}
               >
-                <div className="w-[100%] h-[100%] flex gap-[8px] overflow-x-scroll  ">
+                <div className=" CategoryBox w-[100%] h-[100%] flex gap-[8px] overflow-x-scroll overflow-y-hidden ">
                   {chosenCategory.map((item: chosencategory) => {
                     return (
                       <>
                         <div
-                          className={` flex gap-[8px] items-center px-[12px]  bg-[${item.color}] rounded-[30px] `}
+                          className={` ${item.category == "ხელოვნური ინტელექტი"?"min-w-[210px]": item.category == "მარკეტი"?"min-w-[107px]":item.category == "აპლიკაცია"?"min-w-[121px]":item.category == "UI/UX"?"min-w-[89PX]":item.category == "კვლევა"?"min-w-[101px]":"min-w-[88px]"} flex gap-[8px] items-center px-[12px]  bg-[${item.color}] rounded-[30px] `}
                         >
-                          <p className="text-[12px] text-[#FFF] font-medium ">
+                          <p className=" w-[100%] text-[12px] text-center text-[#FFF] font-medium ">
                             {item.category}
                           </p>
                           <img
@@ -539,13 +540,13 @@ function Addblog() {
               />
             </div>
             {errors.email?.type == "pattern" ? (
-              <div className="flex gap-[8px]">
+              <div className="flex gap-[8px] w-[288px]">
                 <img
                   className="w-[20px] h-[20px]"
-                  src="/assets/info-circle.svg"
+                  src="/images/info-circle.svg"
                   alt="error-img"
                 />
-                <p className=" text-[12px] text-[#EA1919]">
+                <p className=" text-[1.5ch] text-[#EA1919]">
                   მეილი უნდა მთავრდებოდეს @redberry.ge-ით
                 </p>
               </div>
@@ -648,20 +649,20 @@ function Addblog() {
             <div
               className={` w-[190px} px-[16px] py-[8px] cursor-pointer ${
                 chosenCategory.find(
-                  (element) => element.category == "ხელოვნური"
+                  (element) => element.category == "ხელოვნური ინტელექტი"
                 )
                   ? "bg-[#B71FDD] text-[#FFF]"
                   : "bg-[#B11CD614] text-[#B71FDD]"
               } rounded-[30px] `}
               onClick={
                 chosenCategory.find(
-                  (element) => element.category == "ხელოვნური"
+                  (element) => element.category == "ხელოვნური ინტელექტი"
                 )
                   ? () => {}
                   : () => {
                       setChosenCategory([
                         ...chosenCategory,
-                        { category: "ხელოვნური", color: "#B71FDD" },
+                        { category: "ხელოვნური ინტელექტი", color: "#B71FDD" },
                       ]);
                     }
               }
