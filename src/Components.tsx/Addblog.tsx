@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import ReactInputMask from "react-input-mask";
-import { useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 interface chosencategory {
   category: string;
@@ -28,12 +28,12 @@ function Addblog() {
   const [chosenCategory, setChosenCategory] = useState<chosencategory[]>([]);
   const imgUpload = useRef<HTMLInputElement>(null);
   const [imgName, setImgName] = useState<string | undefined>("");
-  const [submited, setSubmited] = useState<boolean>(false);
-  const [categoryErr, setCategoryErr] = useState<boolean>(false);
-  const [emptyAut, setEmptyAut] = useState<boolean>(false);
-  const [length, setLength] = useState<boolean>(false);
-  const [twoWord, setTwoWord] = useState<boolean>(false);
-  const [georgian, setGeorgian] = useState<boolean>(false);
+  const [submited, setSubmited] = useState<boolean>(true);
+  const [categoryErr, setCategoryErr] = useState<boolean>(true);
+  const [emptyAut, setEmptyAut] = useState<boolean>(true);
+  const [length, setLength] = useState<boolean>(true);
+  const [twoWord, setTwoWord] = useState<boolean>(true);
+  const [georgian, setGeorgian] = useState<boolean>(true);
   const author = useRef<any>();
 
   const [post, setPost] = useState<boolean>(false);
@@ -73,15 +73,29 @@ function Addblog() {
     if (describeValue) setValue("describe", describeValue);
     let dataValue = localStorage.getItem("data");
     if (dataValue) setValue("data", dataValue);
-    // let categoryValue = localStorage.getItem("category");
-    // if(categoryValue)setValue("category",categoryValue)
+    let categoryValue = localStorage.getItem("category");
+    if(categoryValue){try {
+      setChosenCategory(JSON.parse(categoryValue));
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+    }
+  }
     let emailValue = localStorage.getItem("email");
     if (emailValue) setValue("email", emailValue);
   }, []);
 
-  // console.log(chosenCategory.toString())
-  // let srt = chosenCategory.toString
-  // console.log(srt.json())
+  // console.log(JSON.stringify(chosenCategory))
+  // let srt = JSON.stringify(chosenCategory)
+  // console.log(JSON.parse(srt))
+
+  console.log(errors.data)
+
+  useEffect(() =>{
+    chosenCategory.length == 0
+                ? setCategoryErr(true)
+                : setCategoryErr(false)
+    chosenCategory? localStorage.setItem("category",JSON.stringify(chosenCategory)):null
+  },[chosenCategory])
 
   useEffect(() => {
     localStorage.setItem("tittle", watch("tittle"));
@@ -160,7 +174,7 @@ function Addblog() {
         <button className="w-[44px] h-[44px] absolute top-[40px] left-[76px] ">
           <img
             className="w-[100%] h-[100%] "
-            src="/assets/Arrow.svg"
+            src="/images/Arrow.svg"
             alt="go-back"
             onClick={() => history.back()}
           />
@@ -179,11 +193,11 @@ function Addblog() {
             {imgName ? (
               <div className="w-[100%] flex justify-between bg-[#F2F2FA] rounded-[12px] p-[16px] ">
                 <div className="flex gap-[12px]">
-                  <img src="/assets/gallery.png" alt="img-icon" />
+                  <img src="/images/gallery.png" alt="img-icon" />
                   <p>{imgName?.split("\\")[imgName?.split("\\").length - 1]}</p>
                 </div>
                 <img
-                  src="/assets/black-cross.svg"
+                  src="/images/black-cross.svg"
                   alt="delete-file"
                   onClick={() => {
                     setImgName("");
@@ -194,7 +208,7 @@ function Addblog() {
               <div className="w-[100%] h-[180px] flex flex-col items-center justify-center gap-[24px] rounded-[12px] bg-[#F4F3FF] border border-dashed border-[#85858D] ">
                 <img
                   className="w-[40px] h-[40px] "
-                  src="/assets/folder-add.png"
+                  src="/images/folder-add.png"
                   alt="add-photo"
                 />
                 <p className="text-[14px] text-[#1A1A1F] ">
@@ -424,13 +438,13 @@ function Addblog() {
               <div
                 className={`w-[288px] h-[44px] flex gap-[12px] ${
                   submited
-                    ? errors.data
+                    ? errors.data?.type == "required" || errors.data?.type == "minLength" 
                       ? "bg-[#ea191933]"
                       : "bg-[#14d81c33]"
                     : "bg-[#FCFCFD]"
                 } border border-solid ${
                   submited
-                    ? errors.data
+                    ? errors.data?.type == "required" || errors.data?.type == "minLength"
                       ? "border-[#EA1919]"
                       : "border-[#14D81C]"
                     : " border-[#E4E3EB]"
@@ -438,7 +452,7 @@ function Addblog() {
               >
                 <img
                   className="w-[20px] h-[20px] "
-                  src="/assets/calendar.svg"
+                  src="/image/calendar.svg"
                   alt="calendar-icon"
                 />
                 <ReactInputMask
@@ -485,7 +499,7 @@ function Addblog() {
                           </p>
                           <img
                             className="w-[16px] h-[16px] "
-                            src="/assets/add.svg"
+                            src="/images/add.svg"
                             alt="delete-categroy"
                             onClick={() =>
                               setChosenCategory(
@@ -566,7 +580,8 @@ function Addblog() {
             className={` w-[288px] h-[40px] flex items-center justify-center  ${
               errors.email?.type != "pattern" &&
               !categoryErr &&
-              !errors.data &&
+              errors.data?.type != "required" &&
+              errors.data?.type != "minLength" &&
               errors.describe?.type != "required" &&
               errors.tittle?.type != "required" &&
               !length &&
@@ -579,13 +594,12 @@ function Addblog() {
             onClick={() => {
               // console.log(Submit);
               setSubmited(true);
-              chosenCategory.length == 0
-                ? setCategoryErr(true)
-                : setCategoryErr(false);
+              ;
 
               errors.email?.type != "pattern" &&
               !categoryErr &&
-              !errors.data &&
+              errors.data?.type != "required" &&
+              errors.data?.type != "minLength" &&
               errors.describe?.type != "required" &&
               errors.tittle?.type != "required" &&
               !length &&
@@ -761,6 +775,7 @@ function Addblog() {
                 className="w-[24px] h-[24px] "
                 src="/images/black-cross.svg"
                 alt=""
+                onClick={() => setPost(false)}
               />
             </div>
             <img
