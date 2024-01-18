@@ -35,7 +35,6 @@ function Addblog() {
   const [twoWord, setTwoWord] = useState<boolean>(true);
   const [georgian, setGeorgian] = useState<boolean>(true);
   const author = useRef<any>();
-  
 
   const [post, setPost] = useState<boolean>(false);
 
@@ -61,11 +60,23 @@ function Addblog() {
     localStorage.setItem("email", "");
     setSubmited(false);
   });
-  console.log(submited)
+  console.log(submited);
 
-
-  const [categoryValue, setCategoryValue] = useState<any[]>([]);
   useEffect(() => {
+    (async () => {
+      const resposne = await fetch(
+        "https://api.blog.redberryinternship.ge/api/blogs",
+        {
+          headers: {
+            Authorization:
+              "Bearer 240d7939d3a9eae1f0794c6ce922ca5162e579b18ec26e9af89bd33aeebb37d9",
+          },
+        }
+      );
+      const data = await resposne.json();
+      console.log(data);
+    })();
+
     let authorValue = localStorage.getItem("author");
     if (authorValue) author.current.value = authorValue;
     let tittleValue = localStorage.getItem("tittle");
@@ -74,22 +85,16 @@ function Addblog() {
     if (describeValue) setValue("describe", describeValue);
     let dataValue = localStorage.getItem("data");
     if (dataValue) setValue("data", dataValue);
-
- 
     let emailValue = localStorage.getItem("email");
     if (emailValue) setValue("email", emailValue);
+    let categoryValue = localStorage.getItem("category");
+    if (categoryValue) setChosenCategory(JSON.parse(categoryValue));
     setSubmited(false);
   }, []);
 
-  
-
   useEffect(() => {
     chosenCategory.length == 0 ? setCategoryErr(true) : setCategoryErr(false);
-    chosenCategory
-      ? localStorage.setItem("category", JSON.stringify(chosenCategory))
-      : null;
-const storedCategory = localStorage.getItem("category");
-if(storedCategory) setCategoryValue(JSON.parse(storedCategory));
+   if(chosenCategory.length > 0) localStorage.setItem("category", JSON.stringify(chosenCategory));
   }, [chosenCategory]);
 
   useEffect(() => {
@@ -141,27 +146,6 @@ if(storedCategory) setCategoryValue(JSON.parse(storedCategory));
       setLength(true);
     }
   }, [submited]);
-
-  // //   function ONSubmit() {
-  // if()
-  // if(errors.author?.ref?.value.split(" ").length < 2){
-  //     setTwoWord(true)
-  // }else{
-  //     setTwoWord(false)
-  // }
-  // if(/^[ა-ჰ]+$/.test(errors.author?.ref?.value)){
-  //     setGeorgian(true)
-  // }else{
-  //     setGeorgian(false)
-  // }
-  // console.log(errors.author)
-  //   }
-  //   useEffect(() => {
-  //     ONSubmit();
-  //   }, [errors, handleSubmit]);
-
-  //   console.log(Object.values(errors.author? errors?.author:[]).forEach((Element,index) => console.log(index,Element)));
-  //   console.log(Object.values(errors?.author ?errors?.author:[]))
 
   return (
     <>
@@ -217,7 +201,7 @@ if(storedCategory) setCategoryValue(JSON.parse(storedCategory));
                 <p className="text-[14px] text-[#1A1A1F] ">
                   ჩააგდეთ ფაილი აქ ან
                   <a
-                    className="font-medium underline underline-offset-2 cursor-pointer "
+                    className="font-medium underline underline-offset-2 cursor-pointer ml-[5px] "
                     onClick={() => {
                       imgUpload.current?.click();
                     }}
@@ -240,13 +224,13 @@ if(storedCategory) setCategoryValue(JSON.parse(storedCategory));
                 <div
                   className={`w-[288px] h-[44px] ${
                     submited
-                      ? emptyAut
+                      ? emptyAut || length || twoWord || !georgian
                         ? "bg-[#ea191933]"
                         : "bg-[#14d81c33]"
                       : "bg-[#FCFCFD]"
                   } border border-solid ${
                     submited
-                      ? emptyAut
+                      ? emptyAut || length || twoWord || !georgian
                         ? "border-[#EA1919]"
                         : "border-[#14D81C]"
                       : " border-[#E4E3EB]"
@@ -287,22 +271,6 @@ if(storedCategory) setCategoryValue(JSON.parse(storedCategory));
                         setLength(true);
                       }
                     }}
-                    // {...register("author", {
-                    //   required: "empty",
-                    //   minLength: {
-                    //     value:4,
-                    //     message:"short"
-                    //   },
-                    //   validate:{long: (element) => {
-                    //     console.log(element.split(" ").length);
-                    //     return element.split(" ").length < 2 || "less";
-                    //   },
-                    // },
-                    //   pattern:{
-                    //     value:/^[ა-ჰ\s]+$/,
-                    //     message:"pattern"
-                    //   }
-                    // })}
                   />
                 </div>
                 <ul className="list-disc text-[12px] text-[#85858D] pl-[20px] font-normal ">
@@ -354,13 +322,15 @@ if(storedCategory) setCategoryValue(JSON.parse(storedCategory));
                 <div
                   className={` w-[288px] h-[44px] ${
                     submited
-                      ? errors.tittle?.type == "required"
+                      ? errors.tittle?.type == "required" ||
+                        errors.tittle?.type == "minLength"
                         ? "bg-[#ea191933]"
                         : "bg-[#14d81c33]"
                       : "bg-[#FCFCFD]"
                   } border border-solid ${
                     submited
-                      ? errors.tittle?.type == "required"
+                      ? errors.tittle?.type == "required" ||
+                        errors.tittle?.type == "minLength"
                         ? "border-[#EA1919]"
                         : "border-[#14D81C]"
                       : " border-[#E4E3EB]"
@@ -379,7 +349,8 @@ if(storedCategory) setCategoryValue(JSON.parse(storedCategory));
                 <p
                   className={`text-[12px] ${
                     submited
-                      ? errors.tittle?.type == "required"
+                      ? errors.tittle?.type == "required" ||
+                        errors.tittle?.type == "minLength"
                         ? "text-[#EA1919]"
                         : "text-[#14D81C]"
                       : " text-[#85858D]"
@@ -401,26 +372,29 @@ if(storedCategory) setCategoryValue(JSON.parse(storedCategory));
               style={{ resize: "none" }}
               className={`w-[100%] h-[124px] flex items-start ${
                 submited
-                  ? errors.describe?.type == "required"
+                  ? errors.describe?.type == "required" ||
+                    errors.describe?.type == "minLength"
                     ? "bg-[#ea191933]"
                     : "bg-[#14d81c33]"
                   : "bg-[#FCFCFD]"
               } border border-solid ${
                 submited
-                  ? errors.describe?.type == "required"
+                  ? errors.describe?.type == "required" ||
+                    errors.describe?.type == "minLength"
                     ? "border-[#EA1919]"
                     : "border-[#14D81C]"
                   : " border-[#E4E3EB]"
               } px-[16px] py-[12px] text-[14px] text-[#1A1A1F] rounded-[12px] appearance-none outline-none `}
               placeholder="შეიყვნეთ აღწერა"
               // value={describeValue?describeValue:""}
-              {...register("describe", { required: true })}
+              {...register("describe", { required: true, minLength: 2 })}
               //   onChange={(e) => console.log(e.target.value)}
             />
             <p
               className={`text-[12px] ${
                 submited
-                  ? errors.describe?.type == "required"
+                  ? errors.describe?.type == "required" ||
+                    errors.describe?.type == "minLength"
                     ? "text-[#EA1919]"
                     : "text-[#14D81C]"
                   : " text-[#85858D]"
@@ -493,7 +467,7 @@ if(storedCategory) setCategoryValue(JSON.parse(storedCategory));
                 } pl-[6px] pr-[14px] py-[6px] rounded-[12px] `}
               >
                 <div className="w-[100%] h-[100%] flex gap-[8px] overflow-x-scroll  ">
-                  {categoryValue.map((item: chosencategory) => {
+                  {chosenCategory.map((item: chosencategory) => {
                     return (
                       <>
                         <div
@@ -588,7 +562,9 @@ if(storedCategory) setCategoryValue(JSON.parse(storedCategory));
               errors.data?.type != "required" &&
               errors.data?.type != "minLength" &&
               errors.describe?.type != "required" &&
+              errors.describe?.type != "minLength" &&
               errors.tittle?.type != "required" &&
+              errors.tittle?.type != "minLength" &&
               !length &&
               !twoWord &&
               georgian &&
@@ -604,7 +580,9 @@ if(storedCategory) setCategoryValue(JSON.parse(storedCategory));
               errors.data?.type != "required" &&
               errors.data?.type != "minLength" &&
               errors.describe?.type != "required" &&
+              errors.describe?.type != "minLength" &&
               errors.tittle?.type != "required" &&
+              errors.tittle?.type != "minLength" &&
               !length &&
               !twoWord &&
               georgian &&
@@ -625,18 +603,18 @@ if(storedCategory) setCategoryValue(JSON.parse(storedCategory));
           >
             <div className="flex gap-[8px]">
               <div
-                className={` px-[16px] py-[8px] ${
-                  chosenCategory.find((element) => element.category == "მაკეტი")
+                className={` px-[16px] py-[8px] cursor-pointer ${
+                  chosenCategory.find((element) => element.category == "მარკეტი")
                     ? "bg-[#FFB82F] text-[#FFF]"
                     : "bg-[#FFB82F14] text-[#D6961C]"
                 } rounded-[30px] `}
                 onClick={
-                  chosenCategory.find((element) => element.category == "მაკეტი")
+                  chosenCategory.find((element) => element.category == "მარკეტი")
                     ? () => {}
                     : () => {
                         setChosenCategory([
                           ...chosenCategory,
-                          { category: "მაკეტი", color: "#FFB82F" },
+                          { category: "მარკეტი", color: "#FFB82F" },
                         ]);
                       }
                 }
@@ -644,7 +622,7 @@ if(storedCategory) setCategoryValue(JSON.parse(storedCategory));
                 <p className="text-[12px]  font-medium ">მარკეტი</p>
               </div>
               <div
-                className={`px-[16px] py-[8px] ${
+                className={`px-[16px] py-[8px] cursor-pointer ${
                   chosenCategory.find(
                     (element) => element.category == "აპლიკაცია"
                   )
@@ -668,7 +646,7 @@ if(storedCategory) setCategoryValue(JSON.parse(storedCategory));
               </div>
             </div>
             <div
-              className={` w-[190px} px-[16px] py-[8px] ${
+              className={` w-[190px} px-[16px] py-[8px] cursor-pointer ${
                 chosenCategory.find(
                   (element) => element.category == "ხელოვნური"
                 )
@@ -694,7 +672,7 @@ if(storedCategory) setCategoryValue(JSON.parse(storedCategory));
             </div>
             <div className="flex gap-[8px] ">
               <div
-                className={`px-[16px] py-[8px] ${
+                className={`px-[16px] py-[8px] cursor-pointer ${
                   chosenCategory.find((element) => element.category == "UI/UX")
                     ? "bg-[#DC2828] text-[#FFF]"
                     : "bg-[#FA575714] text-[#DC2828]"
@@ -713,7 +691,7 @@ if(storedCategory) setCategoryValue(JSON.parse(storedCategory));
                 <p className="text-[12px]  font-medium ">UI/UX</p>
               </div>
               <div
-                className={`px-[16px] py-[8px] ${
+                className={`px-[16px] py-[8px] cursor-pointer ${
                   chosenCategory.find((element) => element.category == "კვლევა")
                     ? "bg-[#60BE16] text-[#FFF]"
                     : "bg-[#70CF2514] text-[#60BE16]"
@@ -732,7 +710,7 @@ if(storedCategory) setCategoryValue(JSON.parse(storedCategory));
                 <p className="text-[12px]  font-medium ">კვლევა</p>
               </div>
               <div
-                className={`px-[16px] py-[8px] ${
+                className={`px-[16px] py-[8px] cursor-pointer ${
                   chosenCategory.find((element) => element.category == "Figma")
                     ? "bg-[#1AC7A8] text-[#FFF]"
                     : "bg-[#08D2AE14] text-[#1AC7A8]"
@@ -789,8 +767,8 @@ if(storedCategory) setCategoryValue(JSON.parse(storedCategory));
             <h1 className="text-[20px] text-[#1A1A1F] font-bold  mb-[48px] ">
               ჩანაწი წარმატებით დაემატა
             </h1>
-            <div
-              className="w-[100%] py-[10px] flex justify-center bg-[#5D37F3] rounded-[8px] "
+            <button
+              className="w-[100%] py-[10px] flex justify-center bg-[#5D37F3] rounded-[8px] cursor-pointer "
               onClick={() => {
                 navigate("/home"),
                   setPost(false),
@@ -806,7 +784,7 @@ if(storedCategory) setCategoryValue(JSON.parse(storedCategory));
               <p className="text-[14px] text-[#FFF] ">
                 მთავარ გვერდზე დაბრუნება
               </p>
-            </div>
+            </button>
           </div>
         </div>
       </section>
