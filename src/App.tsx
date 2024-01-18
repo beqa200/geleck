@@ -6,10 +6,8 @@ import Addblog from "./Components.tsx/Addblog";
 import { Mycontext } from "./Components.tsx/Context";
 
 function App() {
-
   const router = createBrowserRouter([
     {
-      
       element:<Layout/>,
       children:[
         {
@@ -17,26 +15,25 @@ function App() {
           element:<Home/>
         },
         {
-          path:":blog",
-          element:<Blog/>
+          path: ":blog",
+          element: <Blog />,
         },
         {
-          path:"/add-blog",
+          path:"add-blog",
           element:<Addblog/>
         }
       ]
     }
   ])  
 
+
   return (
-  <>
-  <Mycontext.Provider value={{
-    
-  }} >
-    <RouterProvider  router={router} />
-    </Mycontext.Provider>
-  </>
-  )
+    <>
+      <Mycontext.Provider value={{}}>
+        <RouterProvider router={router} />
+      </Mycontext.Provider>
+    </>
+  );
 }
 
 export default App;
