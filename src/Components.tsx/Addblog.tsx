@@ -1,6 +1,7 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import ReactInputMask from "react-input-mask";
+import { useNavigate } from "react-router-dom";
 
 interface chosencategory {
   category: string;
@@ -20,55 +21,165 @@ function Addblog() {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
+    watch,
   } = useForm<Inputs>();
   const [categoryMenu, setCategoryMenu] = useState<boolean>(false);
   const [chosenCategory, setChosenCategory] = useState<chosencategory[]>([]);
   const imgUpload = useRef<HTMLInputElement>(null);
   const [imgName, setImgName] = useState<string | undefined>("");
-  const [submited, setSubmited] = useState<boolean>(false);
-  const [categoryErr, setCategoryErr] = useState<boolean>(false);
-  const [emptyAut, setEmptyAut] = useState<boolean>(false);
-  const [length, setLength] = useState<boolean>(false)
-  const [twoWord, setTwoWord] = useState<boolean>(false);
-  const [georgian, setGeorgian] = useState<boolean>(false);
+  const [submited, setSubmited] = useState<boolean>(true);
+  const [categoryErr, setCategoryErr] = useState<boolean>(true);
+  const [emptyAut, setEmptyAut] = useState<boolean>(true);
+  const [length, setLength] = useState<boolean>(true);
+  const [twoWord, setTwoWord] = useState<boolean>(true);
+  const [georgian, setGeorgian] = useState<boolean>(true);
+  const author = useRef<any>();
+  
+
+  const [post, setPost] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   const Submit: SubmitHandler<Inputs> = (data: any) => {
     console.log(data);
+    localStorage.setItem("author", author.current.value);
+    localStorage.setItem("tittle", data.tittle);
+    localStorage.setItem("describe", data.describe);
+    localStorage.setItem("data", data.data);
+    localStorage.setItem("email", data.email);
   };
 
   const georgianOnlyRegex = /^[ა-ჰ\s]+$/;
 
+  window.addEventListener("popstate", () => {
+    localStorage.setItem("author", "");
+    localStorage.setItem("tittle", "");
+    localStorage.setItem("describe", "");
+    localStorage.setItem("data", "");
+    localStorage.setItem("category", "");
+    localStorage.setItem("email", "");
+    setSubmited(false);
+  });
+  console.log(submited)
 
 
-//   function ONSubmit() {
-    // if()
-    // if(errors.author?.ref?.value.split(" ").length < 2){
-    //     setTwoWord(true)
-    // }else{
-    //     setTwoWord(false)
-    // }
-    // if(/^[ა-ჰ]+$/.test(errors.author?.ref?.value)){
-    //     setGeorgian(true)
-    // }else{
-    //     setGeorgian(false)
-    // }
-    // console.log(errors.author)
-//   }
-//   useEffect(() => {
-//     ONSubmit();
-//   }, [errors, handleSubmit]);
+  const [categoryValue, setCategoryValue] = useState<any[]>([]);
+  useEffect(() => {
+    let authorValue = localStorage.getItem("author");
+    if (authorValue) author.current.value = authorValue;
+    let tittleValue = localStorage.getItem("tittle");
+    if (tittleValue) setValue("tittle", tittleValue);
+    let describeValue = localStorage.getItem("describe");
+    if (describeValue) setValue("describe", describeValue);
+    let dataValue = localStorage.getItem("data");
+    if (dataValue) setValue("data", dataValue);
+
+ 
+    let emailValue = localStorage.getItem("email");
+    if (emailValue) setValue("email", emailValue);
+    setSubmited(false);
+  }, []);
+
+  
+
+  useEffect(() => {
+    chosenCategory.length == 0 ? setCategoryErr(true) : setCategoryErr(false);
+    chosenCategory
+      ? localStorage.setItem("category", JSON.stringify(chosenCategory))
+      : null;
+const storedCategory = localStorage.getItem("category");
+if(storedCategory) setCategoryValue(JSON.parse(storedCategory));
+  }, [chosenCategory]);
+
+  useEffect(() => {
+    localStorage.setItem("tittle", watch("tittle"));
+  }, [watch("tittle")]);
+
+  useEffect(() => {
+    localStorage.setItem("describe", watch("describe"));
+  }, [watch("describe")]);
+
+  useEffect(() => {
+    localStorage.setItem("data", watch("data"));
+  }, [watch("data")]);
+
+  useEffect(() => {
+    localStorage.setItem("email", watch("email"));
+  }, [watch("email")]);
+
+  // if (author.current) {
+  useEffect(() => {
+    localStorage.setItem("author", author.current?.value);
+  }, [author.current?.value]);
+  // }
+
+  useEffect(() => {
+    if (author.current.value) {
+      // console.log(author.current.value);
+      setEmptyAut(false);
+      if (author.current.value.length < 4) {
+        setLength(true);
+      } else {
+        setLength(false);
+      }
+      if (author.current.value.split(" ").length < 2) {
+        setTwoWord(true);
+      } else {
+        setTwoWord(false);
+      }
+      if (georgianOnlyRegex.test(author.current.value)) {
+        setGeorgian(true);
+      } else {
+        setGeorgian(false);
+      }
+    } else {
+      console.log("all err");
+      setEmptyAut(true);
+      setGeorgian(true);
+      setTwoWord(true);
+      setLength(true);
+    }
+  }, [submited]);
+
+  // //   function ONSubmit() {
+  // if()
+  // if(errors.author?.ref?.value.split(" ").length < 2){
+  //     setTwoWord(true)
+  // }else{
+  //     setTwoWord(false)
+  // }
+  // if(/^[ა-ჰ]+$/.test(errors.author?.ref?.value)){
+  //     setGeorgian(true)
+  // }else{
+  //     setGeorgian(false)
+  // }
+  // console.log(errors.author)
+  //   }
+  //   useEffect(() => {
+  //     ONSubmit();
+  //   }, [errors, handleSubmit]);
 
   //   console.log(Object.values(errors.author? errors?.author:[]).forEach((Element,index) => console.log(index,Element)));
   //   console.log(Object.values(errors?.author ?errors?.author:[]))
 
   return (
     <>
-      <section className=" w-[100vw] h-[100vh] flex flex-col items-center bg-[#FBFAFF]  pt-[40px] relative pb-[100px] ">
+      <section className=" w-[100vw] min-h-[100vh] flex flex-col items-center bg-[#FBFAFF]  pt-[40px] relative pb-[100px] ">
         <button className="w-[44px] h-[44px] absolute top-[40px] left-[76px] ">
           <img
             className="w-[100%] h-[100%] "
-            src="/assets/Arrow.svg"
+            src="/images/Arrow.svg"
             alt="go-back"
+            onClick={() => {
+              history.back(), localStorage.setItem("author", "");
+              localStorage.setItem("tittle", "");
+              localStorage.setItem("describe", "");
+              localStorage.setItem("data", "");
+              localStorage.setItem("category", "");
+              localStorage.setItem("email", "");
+              setSubmited(false);
+            }}
           />
         </button>
         <form className="w-[600px] relative " onSubmit={handleSubmit(Submit)}>
@@ -80,16 +191,16 @@ function Addblog() {
               ატვირთეთ ფოტო
             </h2>
 
-{/*//-------------------------------------------------------image-upload------------------------------------------------------- //*/}
+            {/*//-------------------------------------------------------image-upload------------------------------------------------------- //*/}
 
             {imgName ? (
               <div className="w-[100%] flex justify-between bg-[#F2F2FA] rounded-[12px] p-[16px] ">
                 <div className="flex gap-[12px]">
-                  <img src="/assets/gallery.png" alt="img-icon" />
+                  <img src="/images/gallery.png" alt="img-icon" />
                   <p>{imgName?.split("\\")[imgName?.split("\\").length - 1]}</p>
                 </div>
                 <img
-                  src="/assets/black-cross.svg"
+                  src="/images/black-cross.svg"
                   alt="delete-file"
                   onClick={() => {
                     setImgName("");
@@ -100,13 +211,13 @@ function Addblog() {
               <div className="w-[100%] h-[180px] flex flex-col items-center justify-center gap-[24px] rounded-[12px] bg-[#F4F3FF] border border-dashed border-[#85858D] ">
                 <img
                   className="w-[40px] h-[40px] "
-                  src="/assets/folder-add.png"
+                  src="/images/folder-add.png"
                   alt="add-photo"
                 />
                 <p className="text-[14px] text-[#1A1A1F] ">
-                  ჩააგდეთ ფაილი აქ ან{" "}
+                  ჩააგდეთ ფაილი აქ ან
                   <a
-                    className="font-medium underline underline-offset-2 "
+                    className="font-medium underline underline-offset-2 cursor-pointer "
                     onClick={() => {
                       imgUpload.current?.click();
                     }}
@@ -118,8 +229,7 @@ function Addblog() {
             )}
           </div>
           <div className="flex justify-between py-[24px] ">
-
-{/* //----------------------------------------------author-input---------------------------------------------------------------------// */}
+            {/* //----------------------------------------------author-input---------------------------------------------------------------------// */}
 
             <div>
               <label
@@ -147,29 +257,35 @@ function Addblog() {
                     type="text"
                     id="author"
                     placeholder="შეიყვნეთ ავტორი"
-                    // ref={Author}
+                    ref={author}
+                    // value={authorValue?authorValue:""}
                     onChange={(e) => {
+                      localStorage.setItem("author", e.target.value);
                       if (e.target.value) {
-                      setEmptyAut(false)
-                      if(e.target.value.length < 4){
-                        setLength(true)
-                      }else{
-                        setLength(false)
-                      }
-                      if (e.target.value.split(" ").length < 2) {
-                        setTwoWord(true);
+                        console.log(author.current.value);
+                        setEmptyAut(false);
+                        if (e.target.value.length < 4) {
+                          setLength(true);
+                        } else {
+                          setLength(false);
+                        }
+                        if (e.target.value.split(" ").length < 2) {
+                          setTwoWord(true);
+                        } else {
+                          setTwoWord(false);
+                        }
+                        if (georgianOnlyRegex.test(e.target.value)) {
+                          setGeorgian(true);
+                        } else {
+                          setGeorgian(false);
+                        }
                       } else {
-                        setTwoWord(false);
-                      }
-                      if (georgianOnlyRegex.test(e.target.value)) {
+                        console.log("all err");
+                        setEmptyAut(true);
                         setGeorgian(true);
-                      } else {
-                        setGeorgian(false);
+                        setTwoWord(true);
+                        setLength(true);
                       }
-                    }else{
-                        setEmptyAut(true)
-                    }
-                      
                     }}
                     // {...register("author", {
                     //   required: "empty",
@@ -193,8 +309,7 @@ function Addblog() {
                   <li
                     className={`${
                       submited
-                        ? emptyAut ||
-                          length
+                        ? emptyAut || length
                           ? "text-[#EA1919]"
                           : "text-[#14D81C]"
                         : " text-[#85858D]"
@@ -205,7 +320,7 @@ function Addblog() {
                   <li
                     className={`${
                       submited
-                        ? emptyAut|| twoWord
+                        ? emptyAut || twoWord
                           ? "text-[#EA1919]"
                           : "text-[#14D81C]"
                         : " text-[#85858D]"
@@ -228,7 +343,7 @@ function Addblog() {
               </label>
             </div>
 
-{/* //----------------------------------------------tittle-input---------------------------------------------------------------------// */}
+            {/* //----------------------------------------------tittle-input---------------------------------------------------------------------// */}
 
             <div>
               <label
@@ -257,6 +372,7 @@ function Addblog() {
                     // name="tittle"
                     id="tittle"
                     placeholder="შეიყვნეთ სათაური"
+                    // value={tittleValue?tittleValue:""}
                     {...register("tittle", { required: true, minLength: 2 })}
                   />
                 </div>
@@ -275,7 +391,7 @@ function Addblog() {
             </div>
           </div>
 
-{/* //----------------------------------------------description-input---------------------------------------------------------------------// */}
+          {/* //----------------------------------------------description-input---------------------------------------------------------------------// */}
 
           <div className="flex flex-col gap-[8px]">
             <label className="text-[14px] text-[#1A1A1F] font-medium  flex flex-col gap-[8px]">
@@ -297,13 +413,14 @@ function Addblog() {
                   : " border-[#E4E3EB]"
               } px-[16px] py-[12px] text-[14px] text-[#1A1A1F] rounded-[12px] appearance-none outline-none `}
               placeholder="შეიყვნეთ აღწერა"
+              // value={describeValue?describeValue:""}
               {...register("describe", { required: true })}
               //   onChange={(e) => console.log(e.target.value)}
             />
             <p
               className={`text-[12px] ${
                 submited
-                  ? errors.tittle?.type == "required"
+                  ? errors.describe?.type == "required"
                     ? "text-[#EA1919]"
                     : "text-[#14D81C]"
                   : " text-[#85858D]"
@@ -313,7 +430,7 @@ function Addblog() {
             </p>
           </div>
 
-{/* //----------------------------------------------data-input---------------------------------------------------------------------// */}
+          {/* //----------------------------------------------data-input---------------------------------------------------------------------// */}
 
           <div className="flex justify-between py-[24px] ">
             <label
@@ -324,29 +441,36 @@ function Addblog() {
               <div
                 className={`w-[288px] h-[44px] flex gap-[12px] ${
                   submited
-                    ? errors.data
+                    ? errors.data?.type == "required" ||
+                      errors.data?.type == "minLength"
                       ? "bg-[#ea191933]"
                       : "bg-[#14d81c33]"
                     : "bg-[#FCFCFD]"
                 } border border-solid ${
                   submited
-                    ? errors.data
+                    ? errors.data?.type == "required" ||
+                      errors.data?.type == "minLength"
                       ? "border-[#EA1919]"
                       : "border-[#14D81C]"
                     : " border-[#E4E3EB]"
                 } px-[16px] py-[12px] rounded-[12px] `}
               >
-                <img className="w-[20px] h-[20px] "  src="/assets/calendar.svg" alt="calendar-icon" />
+                <img
+                  className="w-[20px] h-[20px] "
+                  src="/image/calendar.svg"
+                  alt="calendar-icon"
+                />
                 <ReactInputMask
                   mask={"99.99.9999"}
                   maskChar={null}
                   className="text-[14px] text-[#1A1A1F] appearance-none bg-transparent outline-none "
+                  // value={dataValue?dataValue:""}
                   {...register("data", { required: true, minLength: 10 })}
                 />
               </div>
             </label>
 
-{/* //----------------------------------------------category-input---------------------------------------------------------------------// */}
+            {/* //----------------------------------------------category-input---------------------------------------------------------------------// */}
 
             <label
               className="text-[14px] text-[#1A1A1F] font-medium  flex flex-col gap-[8px]"
@@ -368,8 +492,8 @@ function Addblog() {
                     : " border-[#E4E3EB]"
                 } pl-[6px] pr-[14px] py-[6px] rounded-[12px] `}
               >
-                <div className="w-[100%] h-[100%] flex gap-[8px] overflow-x-scroll ">
-                  {chosenCategory.map((item: chosencategory) => {
+                <div className="w-[100%] h-[100%] flex gap-[8px] overflow-x-scroll  ">
+                  {categoryValue.map((item: chosencategory) => {
                     return (
                       <>
                         <div
@@ -380,7 +504,7 @@ function Addblog() {
                           </p>
                           <img
                             className="w-[16px] h-[16px] "
-                            src="/assets/add.svg"
+                            src="/images/add.svg"
                             alt="delete-categroy"
                             onClick={() =>
                               setChosenCategory(
@@ -396,7 +520,7 @@ function Addblog() {
                   })}
                 </div>
                 <img
-                  className="w-[20px] h-[20px] ml-[5px] "
+                  className="w-[20px] h-[20px] ml-[5px] cursor-pointer "
                   src="/assets/arrow-down.svg"
                   alt="category-open"
                   onClick={() => setCategoryMenu(!categoryMenu)}
@@ -405,7 +529,7 @@ function Addblog() {
             </label>
           </div>
 
-{/* //----------------------------------------------email-input---------------------------------------------------------------------// */}
+          {/* //----------------------------------------------email-input---------------------------------------------------------------------// */}
 
           <label
             className="text-[14px] text-[#1A1A1F] font-medium  flex flex-col gap-[8px]"
@@ -454,25 +578,45 @@ function Addblog() {
             ) : null}
           </label>
 
-{/* //----------------------------------------------submit-button---------------------------------------------------------------------// */}
+          {/* //----------------------------------------------submit-button---------------------------------------------------------------------// */}
 
           <button
             type="submit"
-            className=" w-[288px] h-[40px] flex items-center justify-center  bg-[#E4E3EB] rounded-[8px] mt-[40px] ml-[312px] "
+            className={` w-[288px] h-[40px] flex items-center justify-center  ${
+              errors.email?.type != "pattern" &&
+              !categoryErr &&
+              errors.data?.type != "required" &&
+              errors.data?.type != "minLength" &&
+              errors.describe?.type != "required" &&
+              errors.tittle?.type != "required" &&
+              !length &&
+              !twoWord &&
+              georgian &&
+              !emptyAut
+                ? "bg-[#5D37F3]"
+                : "bg-[#E4E3EB]"
+            } rounded-[8px] mt-[40px] ml-[312px] `}
             onClick={() => {
-              console.log(Submit);
+              // console.log(Submit);
               setSubmited(true);
-
-              chosenCategory.length == 0
-                ? setCategoryErr(true)
-                : setCategoryErr(false);
+              errors.email?.type != "pattern" &&
+              !categoryErr &&
+              errors.data?.type != "required" &&
+              errors.data?.type != "minLength" &&
+              errors.describe?.type != "required" &&
+              errors.tittle?.type != "required" &&
+              !length &&
+              !twoWord &&
+              georgian &&
+              !emptyAut
+                ? setPost(true)
+                : null;
             }}
           >
             <p className="text-[14px] text-[#FFF] font-medium ">გამოქვეყნება</p>
           </button>
 
-{/* //---------------------------------------------------------------------------------------------------------------------------------// */}
-
+          {/* //---------------------------------------------------------------------------------------------------------------------------------// */}
 
           <div
             className={`${
@@ -621,6 +765,50 @@ function Addblog() {
             setImgName(e.target.value);
           }}
         />
+        <div
+          className={`w-[100vw] h-[100%] bg-[#00000078] flex items-center justify-center absolute top-0 left-0 ${
+            post ? "" : "hidden"
+          } `}
+        >
+          <div
+            className={`w-[480px] h-[300px] flex flex-col items-center bg-[#FFF] px-[24px] pb-[40px] pt-[20px]   rounded-[12px] `}
+          >
+            <div className="w-[100%] flex justify-end mb-[20px]">
+              <img
+                className="w-[24px] h-[24px] "
+                src="/images/black-cross.svg"
+                alt=""
+                onClick={() => setPost(false)}
+              />
+            </div>
+            <img
+              className="mb-[16px]"
+              src="/images/tick-circle.svg"
+              alt="accepted"
+            />
+            <h1 className="text-[20px] text-[#1A1A1F] font-bold  mb-[48px] ">
+              ჩანაწი წარმატებით დაემატა
+            </h1>
+            <div
+              className="w-[100%] py-[10px] flex justify-center bg-[#5D37F3] rounded-[8px] "
+              onClick={() => {
+                navigate("/home"),
+                  setPost(false),
+                  localStorage.setItem("author", "");
+                localStorage.setItem("tittle", "");
+                localStorage.setItem("describe", "");
+                localStorage.setItem("data", "");
+                localStorage.setItem("category", "");
+                localStorage.setItem("email", "");
+                setSubmited(false);
+              }}
+            >
+              <p className="text-[14px] text-[#FFF] ">
+                მთავარ გვერდზე დაბრუნება
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
     </>
   );
