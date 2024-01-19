@@ -22,11 +22,12 @@ function Blog() {
   );
 
   return (
-    <div className="mt-[40px]">
+    <div className="mt-[40px] relative">
       <img
         src={backArrow}
         alt="this image is for back to previous page"
-        className="absolute"
+        className="absolute left-[76px] top-[15px] cursor-pointer transition-transform transform hover:scale-110"
+        onClick={() => history.back()}
       />
       <div className="flex flex-col justify-center items-center">
         <div>
@@ -34,7 +35,7 @@ function Blog() {
             <div>
               <img src={blog?.large} alt="components image" />
               <div>
-                <div>
+                <div className="mt-[40px]">
                   <h3 className="text-[#1A1A1F] text-[16px] font-medium">
                     {blog?.author}
                   </h3>
@@ -43,14 +44,14 @@ function Blog() {
                   </p>
                 </div>
                 <div>
-                  <h2 className="text-[#1A1A1F] text-[2.2ch] font-medium leading-7 mt-[16px]">
+                  <h2 className="text-[#1A1A1F] w-[720px] text-[32px] leading-10 font-medium mt-[16px]">
                     {blog?.title}
                   </h2>
                 </div>
               </div>
             </div>
           </div>
-          <div className="flex justify-start gap-[16px]">
+          <div className="flex justify-start gap-[16px] mt-[24px]">
             {blog?.category?.map((category) => (
               <StyledButtons
                 key={category.id}
@@ -79,7 +80,7 @@ interface StyledProps {
 
 const StyledButtons = styled.div<StyledProps>`
   border-radius: 30px;
-  padding: 8px 16px;
+  padding: 6px 10px;
   background-color: ${({ background }) => background};
   color: ${({ text }) => text};
 `;
