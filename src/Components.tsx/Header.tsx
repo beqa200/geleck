@@ -9,6 +9,7 @@ export default function Header() {
         src={logo}
         alt="redberry logo image"
         className="transition-transform transform hover:scale-110 cursor-pointer"
+        onClick={() => naviagte("/")}
       />
       <button
         className="bg-[#5D37F3] w-[93px] h-[40px] rounded-[8px] text-[#FFF] text-[14px] font-medium transition-transform transform hover:scale-110"
