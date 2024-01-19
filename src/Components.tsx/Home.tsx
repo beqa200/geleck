@@ -43,8 +43,8 @@ function Home() {
           <button
             className={`w-[83px] h-[32px] bg-[#ffb82f14] rounded-[30px] text-[#D6961C] text-[12px] font-medium px-[16px] py-[8px] ${
               selectedCategories.includes("მარკეტი")
-                ? "border border-solid border-[#000000]"
-                : ""
+                ? "bg-[#febe3f] text-white border border-solid border-[#000000]"
+                : " text-[#D6961C] border-none hover:bg-[#febe3f] hover:text-white"
             }`}
             onClick={() => handleButtonClick("მარკეტი")}
           >
@@ -53,8 +53,8 @@ function Home() {
           <button
             className={`w-[97px] h-[32px] justify-center bg-[#1cd67d14] rounded-[30px] text-[#15C972] text-[12px] font-medium px-[16px] py-[8px] ${
               selectedCategories.includes("აპლიკაცია")
-                ? "border border-solid border-[#000000]"
-                : ""
+                ? "bg-[#1ac7a7e2] text-white border border-solid border-[#000000]"
+                : "border-none hover:bg-[#1ac7a7e2] hover:text-white"
             }`}
             onClick={() => handleButtonClick("აპლიკაცია")}
           >
@@ -63,8 +63,8 @@ function Home() {
           <button
             className={`w-[178px] h-[32px] bg-[#EEE1F7] rounded-[30px] text-[#B71FDD] text-[11px] font-medium px-[16px] py-[8px] ${
               selectedCategories.includes("ხელოვნური ინტელექტი")
-                ? "border border-solid border-[#000000]"
-                : ""
+                ? "bg-[#b422d8d4] text-white border border-solid border-[#000000]"
+                : "border-none hover:bg-[#b422d8d4] hover:text-white"
             }`}
             onClick={() => handleButtonClick("ხელოვნური ინტელექტი")}
           >
@@ -73,8 +73,8 @@ function Home() {
           <button
             className={`w-[65px] h-[32px] bg-[#fa575714] rounded-[30px] text-[#DC2828] text-[12px] font-medium px-[16px] py-[8px] ${
               selectedCategories.includes("UI/UX")
-                ? "border border-solid border-[#000000]"
-                : ""
+                ? "bg-[#ff0000df] text-white border border-solid border-[#000000]"
+                : "border-none hover:bg-[#ff0000df] hover:text-white"
             }`}
             onClick={() => handleButtonClick("UI/UX")}
           >
@@ -83,8 +83,8 @@ function Home() {
           <button
             className={`w-[77px] h-[32px] bg-[#E9EFE9] rounded-[30px] text-[#60BE16] text-[12px] font-medium px-[16px] py-[8px] ${
               selectedCategories.includes("კვლევა")
-                ? "border border-solid border-[#000000]"
-                : ""
+                ? "bg-[#5fbe16dd] text-white border border-solid border-[#000000]"
+                : "border-none hover:bg-[#5fbe16dd] hover:text-white"
             }`}
             onClick={() => handleButtonClick("კვლევა")}
           >
@@ -93,8 +93,8 @@ function Home() {
           <button
             className={`w-[64px] h-[32px] bg-[#08d2ae14] rounded-[30px] text-[#1AC7A8] text-[12px] font-medium px-[16px] py-[8px] ${
               selectedCategories.includes("Figma")
-                ? "border border-solid border-[#000000]"
-                : ""
+                ? "bg-[#1ac7a7e2] text-white border border-solid border-[#000000]"
+                : "border-none hover:bg-[#1ac7a7e2] hover:text-white"
             }`}
             onClick={() => handleButtonClick("Figma")}
           >
