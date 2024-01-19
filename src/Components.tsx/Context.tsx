@@ -5,8 +5,6 @@ interface categoryProps {
   name: string;
   text_color: string;
   background_color: string;
-  author: string;
-  month: string;
 }
 
 interface dataProps {
@@ -17,6 +15,7 @@ interface dataProps {
   month: string;
   title: string;
   paragraph: string;
+  email: string;
   category?: categoryProps[];
 }
 

@@ -127,7 +127,7 @@ function Home() {
                   ))}
                 </div>
                 <p className="text-[#404049] text-[1.7ch] font-normal mt-[16px] ">
-                  {item.paragraph}
+                  {item.paragraph.slice(0, 86) + "..."}
                 </p>
                 <div className="flex items-center mt-[16px] cursor-pointer transition-transform transform hover:scale-110">
                   <p
