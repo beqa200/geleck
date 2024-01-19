@@ -43,8 +43,8 @@ function Home() {
           <button
             className={`w-[83px] h-[32px] bg-[#ffb82f14] rounded-[30px] text-[#D6961C] text-[12px] font-medium px-[16px] py-[8px] ${
               selectedCategories.includes("მარკეტი")
-                ? "bg-[#febe3f] text-white border border-solid border-[#000000]"
-                : " text-[#D6961C] border-none hover:bg-[#febe3f] hover:text-white"
+                ? "bg-[#ffba2fdd] text-white border border-solid border-[#000000]"
+                : "text-[#D6961C] border-none hover:bg-[#febe3f] hover:text-white transition-transform transform hover:scale-110"
             }`}
             onClick={() => handleButtonClick("მარკეტი")}
           >
@@ -53,8 +53,8 @@ function Home() {
           <button
             className={`w-[97px] h-[32px] justify-center bg-[#1cd67d14] rounded-[30px] text-[#15C972] text-[12px] font-medium px-[16px] py-[8px] ${
               selectedCategories.includes("აპლიკაცია")
-                ? "bg-[#1ac7a7e2] text-white border border-solid border-[#000000]"
-                : "border-none hover:bg-[#1ac7a7e2] hover:text-white"
+                ? "bg-[#1ac7a7cf] text-white border border-solid border-[#000000]"
+                : "border-none hover:bg-[#1ac7a7e2] hover:text-white transition-transform transform hover:scale-110"
             }`}
             onClick={() => handleButtonClick("აპლიკაცია")}
           >
@@ -64,7 +64,7 @@ function Home() {
             className={`w-[178px] h-[32px] bg-[#EEE1F7] rounded-[30px] text-[#B71FDD] text-[11px] font-medium px-[16px] py-[8px] ${
               selectedCategories.includes("ხელოვნური ინტელექტი")
                 ? "bg-[#b422d8d4] text-white border border-solid border-[#000000]"
-                : "border-none hover:bg-[#b422d8d4] hover:text-white"
+                : "border-none hover:bg-[#b422d8d4] hover:text-white transition-transform transform hover:scale-110"
             }`}
             onClick={() => handleButtonClick("ხელოვნური ინტელექტი")}
           >
@@ -74,7 +74,7 @@ function Home() {
             className={`w-[65px] h-[32px] bg-[#fa575714] rounded-[30px] text-[#DC2828] text-[12px] font-medium px-[16px] py-[8px] ${
               selectedCategories.includes("UI/UX")
                 ? "bg-[#ff0000df] text-white border border-solid border-[#000000]"
-                : "border-none hover:bg-[#ff0000df] hover:text-white"
+                : "border-none hover:bg-[#ff0000df] hover:text-white transition-transform transform hover:scale-110"
             }`}
             onClick={() => handleButtonClick("UI/UX")}
           >
@@ -83,8 +83,8 @@ function Home() {
           <button
             className={`w-[77px] h-[32px] bg-[#E9EFE9] rounded-[30px] text-[#60BE16] text-[12px] font-medium px-[16px] py-[8px] ${
               selectedCategories.includes("კვლევა")
-                ? "bg-[#5fbe16dd] text-white border border-solid border-[#000000]"
-                : "border-none hover:bg-[#5fbe16dd] hover:text-white"
+                ? "bg-[#5fbe16e5] text-white border border-solid border-[#000000]"
+                : "border-none hover:bg-[#5fbe16dd] hover:text-white transition-transform transform hover:scale-110"
             }`}
             onClick={() => handleButtonClick("კვლევა")}
           >
@@ -94,7 +94,7 @@ function Home() {
             className={`w-[64px] h-[32px] bg-[#08d2ae14] rounded-[30px] text-[#1AC7A8] text-[12px] font-medium px-[16px] py-[8px] ${
               selectedCategories.includes("Figma")
                 ? "bg-[#1ac7a7e2] text-white border border-solid border-[#000000]"
-                : "border-none hover:bg-[#1ac7a7e2] hover:text-white"
+                : "border-none hover:bg-[#1ac7a7e2] hover:text-white transition-transform transform hover:scale-110"
             }`}
             onClick={() => handleButtonClick("Figma")}
           >
@@ -131,7 +131,7 @@ function Home() {
                 <p className="text-[#404049] text-[1.7ch] font-normal mt-[16px] ">
                   {item.paragraph}
                 </p>
-                <div className="flex items-center mt-[16px] cursor-pointer">
+                <div className="flex items-center mt-[16px] cursor-pointer transition-transform transform hover:scale-110">
                   <p
                     className="text-[#5D37F3] text-[14px] font-medium"
                     onClick={() => {
@@ -140,7 +140,7 @@ function Home() {
                   >
                     სრულად ნახვა
                   </p>
-                  <img src={arrow} alt="" />
+                  <img src={arrow} alt="arrow image" />
                 </div>
               </div>
             </div>

@@ -13,21 +13,17 @@
   overflow-x: hidden;
 }
 
+.CategoryBox::-webkit-scrollbar {
+  appearance: none;
+  height: 5px;
+  width: 300px;
+}
 
-
-  .CategoryBox::-webkit-scrollbar{
-    appearance: none;
-    height: 5px;
-    width: 300px;
-  }
-
-
-  .CategoryBox::-webkit-scrollbar-thumb{
-    height:3px;
-    border-radius: 5px;
-    background-color: gray;
-  }
-
+.CategoryBox::-webkit-scrollbar-thumb {
+  height: 3px;
+  border-radius: 5px;
+  background-color: gray;
+}
 
 body {
   background-color: #f3f2fa;
