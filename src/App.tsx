@@ -11,7 +11,6 @@ interface categoryProps {
   name: string;
   text_color: string;
   background_color: string;
-  large: string;
 }
 
 interface dataProps {
@@ -21,6 +20,7 @@ interface dataProps {
   month: string;
   title: string;
   paragraph: string;
+  large: string;
   category?: categoryProps[];
 }
 
@@ -29,6 +29,7 @@ function App() {
     {
       id: 1,
       image: "../public/images/small-mobile.png",
+      large: "../../public/images/large-mobile.png",
       author: "ლილე კვარაცხელია",
       month: "01.11.2023",
       title: "EOMM-ის მრჩეველთა საბჭოს ნინო ეგაძე შეუერთდა",
@@ -40,13 +41,13 @@ function App() {
           name: "მარკეტი",
           text_color: "#ffffff",
           background_color: "#000000",
-          large: "../../public/images/large-mobile.png",
         },
       ],
     },
     {
       id: 2,
       image: "../public/images/tennis.png",
+      large: "../../public/images/large-mobile.png",
       author: "ტატო სამხარაძე",
       month: "02.11.2023",
       title: "EOMM-ის მრჩეველთა საბჭოს ნინო ეგაძე შეუერთდა",
@@ -58,13 +59,13 @@ function App() {
           name: "აპლიკაცია",
           text_color: "#ffffff",
           background_color: "#000000",
-          large: "../../public/images/large-mobile.png",
         },
       ],
     },
     {
       id: 3,
       image: "../public/images/tennis.png",
+      large: "../../public/images/large-mobile.png",
       author: "ხელოვნური სამხარაძე",
       month: "03.11.2023",
       title: "EOMM-ის მრჩეველთა საბჭოს ნინო ეგაძე შეუერთდა",
@@ -76,13 +77,13 @@ function App() {
           name: "ხელოვნური ინტელექტი",
           text_color: "#ffffff",
           background_color: "#000000",
-          large: "../../public/images/large-mobile.png",
         },
       ],
     },
     {
       id: 4,
       image: "../public/images/tennis.png",
+      large: "../../public/images/large-mobile.png",
       author: "კვლევა სამხარაძე",
       month: "03.11.2023",
       title: "EOMM-ის მრჩეველთა საბჭოს ნინო ეგაძე შეუერთდა",
@@ -94,13 +95,13 @@ function App() {
           name: "UI/UX",
           text_color: "#ffffff",
           background_color: "#000000",
-          large: "../../public/images/large-mobile.png",
         },
       ],
     },
     {
       id: 5,
       image: "../public/images/tennis.png",
+      large: "../../public/images/large-mobile.png",
       author: "აპლიკაცია სამხარაძე",
       month: "03.11.2023",
       title: "EOMM-ის მრჩეველთა საბჭოს ნინო ეგაძე შეუერთდა",
@@ -112,7 +113,6 @@ function App() {
           name: "კვლევა",
           text_color: "#ffffff",
           background_color: "#000000",
-          large: "../../public/images/large-mobile.png",
         },
       ],
     },

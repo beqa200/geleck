@@ -15,18 +15,33 @@ function Blog() {
     <div>
       <img src={backArrow} alt="this image is for back to previous page" />
       <div className="mt-[16px] flex flex-wrap items-center gap-[16px]">
-        {blog?.category?.map((category, index) => (
+        {blogUser?.map((blog, index) => (
           <div key={index}>
-            <img src={category.large} alt="" />
+            <img src={blog.large} alt="components image" />
+            <div>
+              <div>
+                <h3 className="text-[#1A1A1F] text-[16px] font-medium">
+                  {blog.author}
+                </h3>
+                <p className="text-[#85858D] text-[12px] font-normal mt-[8px]">
+                  {blog.month}
+                </p>
+              </div>
+              <h2 className="text-[#1A1A1F] text-[2.2ch] font-medium leading-7 mt-[16px]">
+                {blog.title}
+              </h2>
+            </div>
           </div>
         ))}
       </div>
-      {blogUser?.map((blog) => (
-        <div key={blog.id}>
-          <img src={blog.image} alt="" />
-          <h2>{blog.author}</h2>
-        </div>
-      ))}
+      <div>
+        {blog?.category?.map((category) => (
+          <div key={category.id}>{category.name}</div>
+        ))}
+      </div>
+      <p className="text-[#404049] text-[1.7ch] font-normal mt-[16px] ">
+        {blog?.paragraph}
+      </p>
     </div>
   );
 }

@@ -51,7 +51,7 @@ function Home() {
           <button
             className={`w-[97px] h-[32px] justify-center bg-[#1cd67d14] rounded-[30px] text-[#15C972] text-[12px] font-medium px-[16px] py-[8px] ${
               selectedCategories.includes("აპლიკაცია")
-                ? "bg-[#1ac7a7d7] text-white border border-solid border-[#000000]"
+                ? "bg-[#1ac7a7df] text-white border border-solid border-[#000000]"
                 : "border-none hover:bg-[#1ac7a7e2] hover:text-white transition-transform transform hover:scale-110"
             }`}
             onClick={() => handleButtonClick("აპლიკაცია")}
@@ -81,7 +81,7 @@ function Home() {
           <button
             className={`w-[77px] h-[32px] bg-[#E9EFE9] rounded-[30px] text-[#60BE16] text-[12px] font-medium px-[16px] py-[8px] ${
               selectedCategories.includes("კვლევა")
-                ? "bg-[#5fbe16e8] text-white border border-solid border-[#000000]"
+                ? "bg-[#5fbe16eb] text-white border border-solid border-[#000000]"
                 : "border-none hover:bg-[#5fbe16dd] hover:text-white transition-transform transform hover:scale-110"
             }`}
             onClick={() => handleButtonClick("კვლევა")}
