@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import ReactInputMask from "react-input-mask";
 import { useNavigate } from "react-router-dom";
+import { Context } from "./Context";
 
 //pushis testi
 
@@ -26,6 +27,7 @@ function Addblog() {
     setValue,
     watch,
   } = useForm<Inputs>();
+  const context = Context();
   const [categoryMenu, setCategoryMenu] = useState<boolean>(false);
   const [chosenCategory, setChosenCategory] = useState<chosencategory[]>([]);
   const imgUpload = useRef<HTMLInputElement>(null);
@@ -60,9 +62,11 @@ function Addblog() {
     localStorage.setItem("data", "");
     localStorage.setItem("category", "");
     localStorage.setItem("email", "");
+    localStorage.setItem("item", "false");
+    context?.setDone(true);
     setSubmited(false);
   });
-  console.log(submited);
+  // console.log(submited);
 
   useEffect(() => {
     (async () => {
@@ -76,7 +80,7 @@ function Addblog() {
         }
       );
       const data = await resposne.json();
-      console.log(data);
+      // console.log(data);
     })();
 
     let authorValue = localStorage.getItem("author");
@@ -142,7 +146,7 @@ function Addblog() {
         setGeorgian(false);
       }
     } else {
-      console.log("all err");
+      // console.log("all err");
       setEmptyAut(true);
       setGeorgian(true);
       setTwoWord(true);
@@ -165,6 +169,8 @@ function Addblog() {
               localStorage.setItem("data", "");
               localStorage.setItem("category", "");
               localStorage.setItem("email", "");
+              localStorage.setItem("item", "false");
+              context?.setDone(true);
               setSubmited(false);
             }}
           />
@@ -247,7 +253,7 @@ function Addblog() {
                     onChange={(e) => {
                       localStorage.setItem("author", e.target.value);
                       if (e.target.value) {
-                        console.log(author.current.value);
+                        // console.log(author.current.value);
                         setEmptyAut(false);
                         if (e.target.value.length < 4) {
                           setLength(true);
@@ -265,7 +271,7 @@ function Addblog() {
                           setGeorgian(false);
                         }
                       } else {
-                        console.log("all err");
+                        // console.log("all err");
                         setEmptyAut(true);
                         setGeorgian(true);
                         setTwoWord(true);
@@ -797,6 +803,8 @@ function Addblog() {
                 localStorage.setItem("data", "");
                 localStorage.setItem("category", "");
                 localStorage.setItem("email", "");
+                localStorage.setItem("item", "false");
+                context?.setDone(true);
                 setSubmited(false);
               }}
             >
