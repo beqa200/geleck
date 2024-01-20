@@ -11,15 +11,28 @@ export default function Header() {
       <img
         src={logo}
         alt="redberry logo image"
-        className="transition-transform transform hover:scale-110 cursor-pointer"
+        className="redberry-right transition-transform transform hover:scale-110 cursor-pointer"
         onClick={() => naviagte("/")}
       />
-      <button
-        className="bg-[#5D37F3] w-[93px] h-[40px] rounded-[8px] text-[#FFF] text-[14px] font-medium transition-transform transform hover:scale-110"
-        onClick={() => context?.setEmail(true)}
-      >
-        შესვლა
-      </button>
+      {!context?.done ? (
+        <button
+          className="slide-right bg-[#5D37F3] flex px-[20px] py-[10px] rounded-[8px] text-[#FFF] text-[14px] font-medium transition-transform transform hover:scale-110"
+          onClick={() => {
+            context?.setEmail(true), context?.setDone(false);
+          }}
+        >
+          შესვლა
+        </button>
+      ) : (
+        <button
+          className=" bg-[#5D37F3] flex px-[20px] py-[10px] rounded-[8px] text-[#FFF] text-[14px] font-medium transition-transform transform hover:scale-110"
+          onClick={() => {
+            // context?.setEmail(true), context?.setDone(false);
+          }}
+        >
+          დაამატე ბლოგი
+        </button>
+      )}
     </div>
   );
 }

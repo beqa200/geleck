@@ -1,10 +1,10 @@
 import { useRef, useState } from "react";
-import { Context } from "./Context";
 import errorImg from "../../public/images/info-circle.svg";
+import { Context } from "./Context";
 
 export default function Email() {
   const [error, setError] = useState<boolean>(false);
-  const [done, setDone] = useState<boolean>(false);
+
   const emailRef = useRef<HTMLInputElement | null>(null);
   const context = Context();
   const regex = /^[a-zA-Z0-9._%+-]+@redberry.ge$/;
@@ -12,7 +12,7 @@ export default function Email() {
   function emailError() {
     if (regex.test(emailRef.current?.value ? emailRef.current?.value : "")) {
       setError(false);
-      setDone(true);
+      context?.setDone(true);
     } else {
       setError(true);
     }
@@ -20,7 +20,7 @@ export default function Email() {
 
   return (
     <div>
-      {!done ? (
+      {!context?.done ? (
         <div
           className={`w-[480px] min-h-[272px] flex flex-col items-center bg-[#FFF] px-[24px] pb-[40px] pt-[20px]   rounded-[12px] `}
         >
@@ -78,7 +78,7 @@ export default function Email() {
               src="/images/black-cross.svg"
               alt=""
               onClick={() => {
-                context?.setEmail(false), setDone(false);
+                context?.setEmail(false), context?.setDone(false);
               }}
             />
           </div>
@@ -91,9 +91,9 @@ export default function Email() {
             წარმატებული ავტორიზაცია
           </h1>
           <button
-            className="w-[100%] py-[10px] flex justify-center bg-[#5D37F3] rounded-[8px] cursor-pointer "
+            className="w-[100%] py-[10px] flex justify-center bg-[#5D37F3] rounded-[8px] cursor-pointer hover:bg-[#5d37f3a0]"
             onClick={() => {
-              context?.setEmail(false), setDone(false);
+              context?.setEmail(false), context?.setDone(false);
             }}
           >
             <p className="text-[14px] text-[#FFF] ">კარგი</p>
