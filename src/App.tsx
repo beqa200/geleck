@@ -71,6 +71,18 @@ function App() {
           text_color: "#ffffff",
           background_color: "#000000",
         },
+        {
+          id: 2,
+          name: "Figma",
+          text_color: "#b72929",
+          background_color: "#000000",
+        },
+        {
+          id: 4,
+          name: "UI/UX",
+          text_color: "#ffffff",
+          background_color: "#000000",
+        },
       ],
     },
     {
@@ -87,6 +99,18 @@ function App() {
         {
           id: 3,
           name: "ხელოვნური ინტელექტი",
+          text_color: "#ffffff",
+          background_color: "#000000",
+        },
+        {
+          id: 2,
+          name: "Figma",
+          text_color: "#b72929",
+          background_color: "#000000",
+        },
+        {
+          id: 4,
+          name: "UI/UX",
           text_color: "#ffffff",
           background_color: "#000000",
         },
@@ -109,6 +133,12 @@ function App() {
           text_color: "#ffffff",
           background_color: "#000000",
         },
+        {
+          id: 2,
+          name: "Figma",
+          text_color: "#b72929",
+          background_color: "#000000",
+        },
       ],
     },
     {
@@ -126,6 +156,12 @@ function App() {
           id: 5,
           name: "კვლევა",
           text_color: "#ffffff",
+          background_color: "#000000",
+        },
+        {
+          id: 2,
+          name: "Figma",
+          text_color: "#b72929",
           background_color: "#000000",
         },
       ],
