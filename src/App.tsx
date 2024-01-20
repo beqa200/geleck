@@ -29,6 +29,8 @@ interface dataProps {
 function App() {
   const [email, setEmail] = useState<boolean>(false);
   const [done, setDone] = useState<boolean>(false);
+  const [save, setSave] = useState<boolean>(false);
+  const [hidden, setHidden] = useState<boolean>(false);
   const [data, setData] = useState<dataProps[]>([
     {
       id: 1,
@@ -209,6 +211,10 @@ function App() {
           setEmail,
           done,
           setDone,
+          save,
+          setSave,
+          hidden,
+          setHidden,
         }}
       >
         <RouterProvider router={router} />

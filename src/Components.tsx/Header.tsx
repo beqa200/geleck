@@ -7,16 +7,20 @@ export default function Header() {
   const context = Context();
   const naviagte = useNavigate();
   return (
-    <div className="bg-[#FFFFFF] h-[80px] flex items-center px-[76px] justify-between border-b border-solid border-gray-300">
+    <div
+      className={`bg-[#FFFFFF] h-[80px] flex items-center px-[76px] ${
+        context?.hidden ? "justify-center" : "justify-between "
+      } border-b border-solid border-gray-300`}
+    >
       <img
         src={logo}
         alt="redberry logo image"
-        className="redberry-right transition-transform transform hover:scale-110 cursor-pointer"
+        className="transition-transform transform hover:scale-110 cursor-pointer"
         onClick={() => naviagte("/")}
       />
       {!context?.done ? (
         <button
-          className="slide-right bg-[#5D37F3] flex px-[20px] py-[10px] rounded-[8px] text-[#FFF] text-[14px] font-medium transition-transform transform hover:scale-110"
+          className="bg-[#5D37F3] flex px-[20px] py-[10px] rounded-[8px] text-[#FFF] text-[14px] font-medium transition-transform transform hover:scale-110"
           onClick={() => {
             context?.setEmail(true), context?.setDone(false);
           }}
@@ -25,9 +29,11 @@ export default function Header() {
         </button>
       ) : (
         <button
-          className=" bg-[#5D37F3] flex px-[20px] py-[10px] rounded-[8px] text-[#FFF] text-[14px] font-medium transition-transform transform hover:scale-110"
+          className={`${
+            context?.hidden ? "hidden" : ""
+          } bg-[#5D37F3] flex px-[20px] py-[10px] rounded-[8px] text-[#FFF] text-[14px] font-medium transition-transform transform hover:scale-110`}
           onClick={() => {
-            // context?.setEmail(true), context?.setDone(false);
+            context?.setHidden(true), naviagte("/add-blog");
           }}
         >
           დაამატე ბლოგი

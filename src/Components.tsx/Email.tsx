@@ -13,6 +13,7 @@ export default function Email() {
     if (regex.test(emailRef.current?.value ? emailRef.current?.value : "")) {
       setError(false);
       context?.setDone(true);
+      context?.setSave(true);
     } else {
       setError(true);
     }
@@ -78,7 +79,7 @@ export default function Email() {
               src="/images/black-cross.svg"
               alt=""
               onClick={() => {
-                context?.setEmail(false), context?.setDone(false);
+                context?.setEmail(false), context?.setSave(false);
               }}
             />
           </div>
@@ -93,10 +94,15 @@ export default function Email() {
           <button
             className="w-[100%] py-[10px] flex justify-center bg-[#5D37F3] rounded-[8px] cursor-pointer hover:bg-[#5d37f3a0]"
             onClick={() => {
-              context?.setEmail(false), context?.setDone(false);
+              context?.setEmail(false), context?.setDone(true);
             }}
           >
-            <p className="text-[14px] text-[#FFF] ">კარგი</p>
+            <p
+              className="text-[14px] text-[#FFF]"
+              onClick={() => context?.setSave(false)}
+            >
+              კარგი
+            </p>
           </button>
         </div>
       )}

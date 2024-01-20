@@ -20,6 +20,10 @@ interface dataProps {
 }
 
 interface ContextInt {
+  hidden: boolean;
+  setHidden: (hidden: boolean) => void;
+  save: boolean;
+  setSave: (save: boolean) => void;
   done: boolean;
   setDone: (done: boolean) => void;
   email: boolean;
