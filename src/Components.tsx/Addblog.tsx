@@ -4,8 +4,6 @@ import ReactInputMask from "react-input-mask";
 import { useNavigate } from "react-router-dom";
 import { Context } from "./Context";
 
-//pushis testi
-
 interface chosencategory {
   category: string;
   color: string;
@@ -66,7 +64,6 @@ function Addblog() {
     context?.setDone(true);
     setSubmited(false);
   });
-  // console.log(submited);
 
   useEffect(() => {
     (async () => {
@@ -120,15 +117,13 @@ function Addblog() {
     localStorage.setItem("email", watch("email"));
   }, [watch("email")]);
 
-  // if (author.current) {
   useEffect(() => {
     localStorage.setItem("author", author.current?.value);
   }, [author.current?.value]);
-  // }
+
 
   useEffect(() => {
     if (author.current.value) {
-      // console.log(author.current.value);
       setEmptyAut(false);
       if (author.current.value.length < 4) {
         setLength(true);
@@ -146,7 +141,7 @@ function Addblog() {
         setGeorgian(false);
       }
     } else {
-      // console.log("all err");
+
       setEmptyAut(true);
       setGeorgian(true);
       setTwoWord(true);
@@ -249,11 +244,9 @@ function Addblog() {
                     id="author"
                     placeholder="შეიყვნეთ ავტორი"
                     ref={author}
-                    // value={authorValue?authorValue:""}
                     onChange={(e) => {
                       localStorage.setItem("author", e.target.value);
                       if (e.target.value) {
-                        // console.log(author.current.value);
                         setEmptyAut(false);
                         if (e.target.value.length < 4) {
                           setLength(true);
@@ -271,7 +264,6 @@ function Addblog() {
                           setGeorgian(false);
                         }
                       } else {
-                        // console.log("all err");
                         setEmptyAut(true);
                         setGeorgian(true);
                         setTwoWord(true);
@@ -346,10 +338,8 @@ function Addblog() {
                   <input
                     className="appearance-none bg-transparent outline-none w-[100%] text-[14px] text-[#1A1A1F] font-normal "
                     type="text"
-                    // name="tittle"
                     id="tittle"
                     placeholder="შეიყვნეთ სათაური"
-                    // value={tittleValue?tittleValue:""}
                     {...register("tittle", { required: true, minLength: 2 })}
                   />
                 </div>
@@ -393,9 +383,7 @@ function Addblog() {
                   : " border-[#E4E3EB]"
               } px-[16px] py-[12px] text-[14px] text-[#1A1A1F] rounded-[12px] appearance-none outline-none `}
               placeholder="შეიყვნეთ აღწერა"
-              // value={describeValue?describeValue:""}
               {...register("describe", { required: true, minLength: 2 })}
-              //   onChange={(e) => console.log(e.target.value)}
             />
             <p
               className={`text-[12px] ${
@@ -445,7 +433,6 @@ function Addblog() {
                   mask={"99.99.9999"}
                   maskChar={null}
                   className="text-[14px] text-[#1A1A1F] appearance-none bg-transparent outline-none "
-                  // value={dataValue?dataValue:""}
                   {...register("data", { required: true, minLength: 10 })}
                 />
               </div>
@@ -594,7 +581,7 @@ function Addblog() {
                 : "bg-[#E4E3EB]"
             } rounded-[8px] mt-[40px] ml-[312px] `}
             onClick={() => {
-              // console.log(Submit);
+              
               setSubmited(true);
               errors.email?.type != "pattern" &&
               !categoryErr &&

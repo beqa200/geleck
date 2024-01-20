@@ -1,27 +1,20 @@
 import logo from "../../public/images/redberry.png";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Context } from "./Context";
 import { useEffect, useState } from "react";
 
 export default function Header() {
-  const params = useParams();
   const context = Context();
   const naviagte = useNavigate();
   const [choose, setChoose] = useState<string>("");
 
   useEffect(() => {
     console.log(context?.hidden.toString());
-
-    // if (context?.hidden != undefined) {
-    //   localStorage.setItem("item", context?.hidden.toString());
-    // }
     let chose = localStorage.getItem("item");
     if (chose) {
       setChoose(chose);
     }
   }, [context?.hidden, localStorage.getItem("item")]);
-
-  // console.log(chose);
 
   return (
     <div
