@@ -20,6 +20,10 @@ interface dataProps {
 }
 
 interface ContextInt {
+  submited: boolean;
+  setSubmited: (submited: boolean) => void;
+  post: boolean;
+  setPost: (post: boolean) => void;
   hidden: boolean;
   setHidden: (hidden: boolean) => void;
   save: boolean;

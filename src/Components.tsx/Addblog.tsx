@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import ReactInputMask from "react-input-mask";
-import { useNavigate } from "react-router-dom";
 import { Context } from "./Context";
 
 interface chosencategory {
@@ -30,17 +29,12 @@ function Addblog() {
   const [chosenCategory, setChosenCategory] = useState<chosencategory[]>([]);
   const imgUpload = useRef<HTMLInputElement>(null);
   const [imgName, setImgName] = useState<string | undefined>("");
-  const [submited, setSubmited] = useState<boolean>(true);
   const [categoryErr, setCategoryErr] = useState<boolean>(true);
   const [emptyAut, setEmptyAut] = useState<boolean>(true);
   const [length, setLength] = useState<boolean>(true);
   const [twoWord, setTwoWord] = useState<boolean>(true);
   const [georgian, setGeorgian] = useState<boolean>(true);
   const author = useRef<any>();
-
-  const [post, setPost] = useState<boolean>(false);
-
-  const navigate = useNavigate();
 
   const Submit: SubmitHandler<Inputs> = (data: any) => {
     console.log(data);
@@ -62,7 +56,7 @@ function Addblog() {
     localStorage.setItem("email", "");
     localStorage.setItem("item", "false");
     context?.setDone(true);
-    setSubmited(false);
+    context?.setSubmited(false);
   });
 
   useEffect(() => {
@@ -92,7 +86,7 @@ function Addblog() {
     if (emailValue) setValue("email", emailValue);
     let categoryValue = localStorage.getItem("category");
     if (categoryValue) setChosenCategory(JSON.parse(categoryValue));
-    setSubmited(false);
+    context?.setSubmited(false);
   }, []);
 
   useEffect(() => {
@@ -121,7 +115,6 @@ function Addblog() {
     localStorage.setItem("author", author.current?.value);
   }, [author.current?.value]);
 
-
   useEffect(() => {
     if (author.current.value) {
       setEmptyAut(false);
@@ -141,13 +134,12 @@ function Addblog() {
         setGeorgian(false);
       }
     } else {
-
       setEmptyAut(true);
       setGeorgian(true);
       setTwoWord(true);
       setLength(true);
     }
-  }, [submited]);
+  }, [context?.submited]);
 
   return (
     <>
@@ -166,7 +158,7 @@ function Addblog() {
               localStorage.setItem("email", "");
               localStorage.setItem("item", "false");
               context?.setDone(true);
-              setSubmited(false);
+              context?.setSubmited(false);
             }}
           />
         </button>
@@ -225,13 +217,13 @@ function Addblog() {
                 ავტორი *
                 <div
                   className={`w-[288px] h-[44px] ${
-                    submited
+                    context?.submited
                       ? emptyAut || length || twoWord || !georgian
                         ? "bg-[#ea191933]"
                         : "bg-[#14d81c33]"
                       : "bg-[#FCFCFD]"
                   } border border-solid ${
-                    submited
+                    context?.submited
                       ? emptyAut || length || twoWord || !georgian
                         ? "border-[#EA1919]"
                         : "border-[#14D81C]"
@@ -275,7 +267,7 @@ function Addblog() {
                 <ul className="list-disc text-[12px] text-[#85858D] pl-[20px] font-normal ">
                   <li
                     className={`${
-                      submited
+                      context?.submited
                         ? emptyAut || length
                           ? "text-[#EA1919]"
                           : "text-[#14D81C]"
@@ -286,7 +278,7 @@ function Addblog() {
                   </li>
                   <li
                     className={`${
-                      submited
+                      context?.submited
                         ? emptyAut || twoWord
                           ? "text-[#EA1919]"
                           : "text-[#14D81C]"
@@ -297,7 +289,7 @@ function Addblog() {
                   </li>
                   <li
                     className={`${
-                      submited
+                      context?.submited
                         ? emptyAut || !georgian
                           ? "text-[#EA1919]"
                           : "text-[#14D81C]"
@@ -320,14 +312,14 @@ function Addblog() {
                 სათური *
                 <div
                   className={` w-[288px] h-[44px] ${
-                    submited
+                    context?.submited
                       ? errors.tittle?.type == "required" ||
                         errors.tittle?.type == "minLength"
                         ? "bg-[#ea191933]"
                         : "bg-[#14d81c33]"
                       : "bg-[#FCFCFD]"
                   } border border-solid ${
-                    submited
+                    context?.submited
                       ? errors.tittle?.type == "required" ||
                         errors.tittle?.type == "minLength"
                         ? "border-[#EA1919]"
@@ -345,7 +337,7 @@ function Addblog() {
                 </div>
                 <p
                   className={`text-[12px] ${
-                    submited
+                    context?.submited
                       ? errors.tittle?.type == "required" ||
                         errors.tittle?.type == "minLength"
                         ? "text-[#EA1919]"
@@ -368,14 +360,14 @@ function Addblog() {
             <textarea
               style={{ resize: "none" }}
               className={`w-[100%] h-[124px] flex items-start ${
-                submited
+                context?.submited
                   ? errors.describe?.type == "required" ||
                     errors.describe?.type == "minLength"
                     ? "bg-[#ea191933]"
                     : "bg-[#14d81c33]"
                   : "bg-[#FCFCFD]"
               } border border-solid ${
-                submited
+                context?.submited
                   ? errors.describe?.type == "required" ||
                     errors.describe?.type == "minLength"
                     ? "border-[#EA1919]"
@@ -387,7 +379,7 @@ function Addblog() {
             />
             <p
               className={`text-[12px] ${
-                submited
+                context?.submited
                   ? errors.describe?.type == "required" ||
                     errors.describe?.type == "minLength"
                     ? "text-[#EA1919]"
@@ -409,14 +401,14 @@ function Addblog() {
               გამოქვეყნების თარიღი *
               <div
                 className={`w-[288px] h-[44px] flex gap-[12px] ${
-                  submited
+                  context?.submited
                     ? errors.data?.type == "required" ||
                       errors.data?.type == "minLength"
                       ? "bg-[#ea191933]"
                       : "bg-[#14d81c33]"
                     : "bg-[#FCFCFD]"
                 } border border-solid ${
-                  submited
+                  context?.submited
                     ? errors.data?.type == "required" ||
                       errors.data?.type == "minLength"
                       ? "border-[#EA1919]"
@@ -447,13 +439,13 @@ function Addblog() {
               კატეგორია *
               <div
                 className={` flex items-center w-[288px] h-[44px] ${
-                  submited
+                  context?.submited
                     ? categoryErr
                       ? "bg-[#ea191933]"
                       : "bg-[#14d81c33]"
                     : "bg-[#FCFCFD]"
                 } border border-solid ${
-                  submited
+                  context?.submited
                     ? categoryErr
                       ? "border-[#EA1919]"
                       : "border-[#14D81C]"
@@ -520,13 +512,13 @@ function Addblog() {
             ელ-ფოსტა
             <div
               className={`w-[288px] h-[44px] ${
-                submited
+                context?.submited
                   ? errors.email?.type == "pattern"
                     ? "bg-[#ea191933]"
                     : "bg-[#14d81c33]"
                   : "bg-[#FCFCFD]"
               } border border-solid ${
-                submited
+                context?.submited
                   ? errors.email?.type == "pattern"
                     ? "border-[#EA1919]"
                     : "border-[#14D81C]"
@@ -581,8 +573,7 @@ function Addblog() {
                 : "bg-[#E4E3EB]"
             } rounded-[8px] mt-[40px] ml-[312px] `}
             onClick={() => {
-              
-              setSubmited(true);
+              context?.setSubmited(true);
               errors.email?.type != "pattern" &&
               !categoryErr &&
               errors.data?.type != "required" &&
@@ -595,7 +586,7 @@ function Addblog() {
               !twoWord &&
               georgian &&
               !emptyAut
-                ? setPost(true)
+                ? context?.setPost(true)
                 : null;
             }}
           >
@@ -755,52 +746,6 @@ function Addblog() {
             setImgName(e.target.value);
           }}
         />
-        <div
-          className={`w-[100vw] h-[100%] bg-[#00000078] flex items-center justify-center absolute top-0 left-0 ${
-            post ? "" : "hidden"
-          } `}
-        >
-          <div
-            className={`w-[480px] h-[300px] flex flex-col items-center bg-[#FFF] px-[24px] pb-[40px] pt-[20px]   rounded-[12px] `}
-          >
-            <div className="w-[100%] flex justify-end mb-[20px]">
-              <img
-                className="w-[24px] h-[24px] "
-                src="/images/black-cross.svg"
-                alt=""
-                onClick={() => setPost(false)}
-              />
-            </div>
-            <img
-              className="mb-[16px]"
-              src="/images/tick-circle.svg"
-              alt="accepted"
-            />
-            <h1 className="text-[20px] text-[#1A1A1F] font-bold  mb-[48px] ">
-              ჩანაწი წარმატებით დაემატა
-            </h1>
-            <button
-              className="w-[100%] py-[10px] flex justify-center bg-[#5D37F3] rounded-[8px] cursor-pointer "
-              onClick={() => {
-                navigate("/home"),
-                  setPost(false),
-                  localStorage.setItem("author", "");
-                localStorage.setItem("tittle", "");
-                localStorage.setItem("describe", "");
-                localStorage.setItem("data", "");
-                localStorage.setItem("category", "");
-                localStorage.setItem("email", "");
-                localStorage.setItem("item", "false");
-                context?.setDone(true);
-                setSubmited(false);
-              }}
-            >
-              <p className="text-[14px] text-[#FFF] ">
-                მთავარ გვერდზე დაბრუნება
-              </p>
-            </button>
-          </div>
-        </div>
       </section>
     </>
   );

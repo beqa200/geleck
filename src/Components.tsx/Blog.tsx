@@ -32,6 +32,9 @@ function Blog() {
   const blog = context?.data.find((item) => item.id.toString() == params.blog);
   const names: string[] = [];
 
+  const firstParagraph = blog?.paragraph.slice(0, 776);
+  const secondParagraph = blog?.paragraph.slice(776, blog?.paragraph.length);
+
   if (blog?.category) {
     for (let i = 0; i < blog?.category?.length; i++) {
       names.push(blog.category[i].name);
@@ -84,9 +87,14 @@ function Blog() {
               </StyledButtons>
             ))}
           </div>
-          <p className="text-[#404049] w-[720px] text-[1.8ch] font-normal mt-[40px] ">
-            {blog?.paragraph}
-          </p>
+          <div>
+            <p className="text-[#404049] w-[720px] text-[1.8ch]  font-normal mt-[40px] ">
+              {firstParagraph}
+            </p>
+            <p className="text-[#404049] w-[720px] text-[1.8ch] font-normal mt-[40px] ">
+              {secondParagraph}
+            </p>
+          </div>
         </div>
       </div>
 
@@ -151,12 +159,13 @@ function Blog() {
                   </h2>
                   <div className="mt-[16px] flex flex-wrap  items-center gap-[16px]">
                     {item.category?.map((itemCategory, number) => (
-                      <div
+                      <StyledButtons
                         key={number}
-                        className={`flex justify-center items-center text-${itemCategory.text_color} bg-${itemCategory.background_color} rounded-[30px] px-[10px] py-[8px] text-[12px] font-medium`}
+                        text={itemCategory.text_color}
+                        background={itemCategory.background_color}
                       >
                         {itemCategory.name}
-                      </div>
+                      </StyledButtons>
                     ))}
                   </div>
                   <p className="text-[#404049] text-[1.7ch] font-normal mt-[16px] ">

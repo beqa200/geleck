@@ -27,10 +27,15 @@ interface dataProps {
 }
 
 function App() {
+  let text =
+    "6 თვის შემდეგ ყველის ბრმა დეგუსტაციის დროც დადგა. მაქსიმალური სიზუსტისთვის, ეს პროცესი";
+  console.log(text.split(" ").length);
   const [email, setEmail] = useState<boolean>(false);
   const [done, setDone] = useState<boolean>(false);
   const [save, setSave] = useState<boolean>(false);
   const [hidden, setHidden] = useState<boolean>(false);
+  const [post, setPost] = useState<boolean>(false);
+  const [submited, setSubmited] = useState<boolean>(true);
   const [data, setData] = useState<dataProps[]>([
     {
       id: 1,
@@ -215,6 +220,10 @@ function App() {
           setSave,
           hidden,
           setHidden,
+          post,
+          setPost,
+          submited,
+          setSubmited,
         }}
       >
         <RouterProvider router={router} />

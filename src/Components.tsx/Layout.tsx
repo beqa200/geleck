@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Email from "./Email";
 import { Context } from "./Context";
+import Finish from "./Finish";
 
 function Layout() {
   const context = Context();
@@ -16,6 +17,7 @@ function Layout() {
       >
         <Email />
       </div>
+      <Finish />
     </>
   );
 }

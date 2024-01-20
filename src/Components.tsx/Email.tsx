@@ -9,6 +9,8 @@ export default function Email() {
   const context = Context();
   const regex = /^[a-zA-Z0-9._%+-]+@redberry.ge$/;
 
+  const [inputValue, setInputValue] = useState("");
+
   function emailError() {
     if (regex.test(emailRef.current?.value ? emailRef.current?.value : "")) {
       setError(false);
@@ -32,6 +34,7 @@ export default function Email() {
               alt=""
               onClick={() => {
                 context?.setEmail(false), setError(false);
+                setInputValue("");
               }}
             />
           </div>
@@ -48,6 +51,8 @@ export default function Email() {
                 ref={emailRef}
                 type="text"
                 placeholder="Example@redberry.ge"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
                 className={`w-[432px] h-[44px] mt-[8px] outline-none rounded-[12px] caret-[#5D37F3] pl-[14px] border-2 border-solid ${
                   error ? "border-[#EA1919] bg-[#ea191933]" : "border-[#5D37F3]"
                 }`}
