@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import arrow from "../../public/images/blue-arrow.svg";
 
 function Blog() {
-  const sliderRef = useRef(null);
+  const sliderRef = useRef<any>(null);
 
   const navigate = useNavigate();
 
@@ -42,7 +42,7 @@ function Blog() {
       ? item.category?.some((category) => names?.includes(category.name))
       : true
   );
-  console.log(sliderRef.current);
+
   return (
     <div className="mt-[40px] relative">
       <img

@@ -3,6 +3,7 @@ import Layout from "./Components.tsx/Layout";
 import Home from "./Components.tsx/Home";
 import Blog from "./Components.tsx/Blog";
 import Addblog from "./Components.tsx/Addblog";
+import Email from "./Components.tsx/Email";
 import { Mycontext } from "./Components.tsx/Context";
 import { useState } from "react";
 
@@ -26,6 +27,8 @@ interface dataProps {
 }
 
 function App() {
+  const [email, setEmail] = useState<boolean>(false);
+
   const [data, setData] = useState<dataProps[]>([
     {
       id: 1,
@@ -186,6 +189,10 @@ function App() {
           path: "/add-blog",
           element: <Addblog />,
         },
+        {
+          path: "/email",
+          element: <Email />,
+        },
       ],
     },
   ]);
@@ -198,6 +205,8 @@ function App() {
           setButton,
           data,
           setData,
+          email,
+          setEmail,
         }}
       >
         <RouterProvider router={router} />

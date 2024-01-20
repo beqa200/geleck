@@ -20,6 +20,8 @@ interface dataProps {
 }
 
 interface ContextInt {
+  email: boolean;
+  setEmail: (email: boolean) => void;
   button: boolean;
   setButton: (button: boolean) => void;
   data: dataProps[];
