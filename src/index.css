@@ -13,22 +13,42 @@
   overflow-x: hidden;
 }
 
+.CategoryBox::-webkit-scrollbar {
+  appearance: none;
+  height: 5px;
+  width: 300px;
+}
 
-
-  .CategoryBox::-webkit-scrollbar{
-    appearance: none;
-    height: 5px;
-    width: 300px;
-  }
-
-
-  .CategoryBox::-webkit-scrollbar-thumb{
-    height:3px;
-    border-radius: 5px;
-    background-color: gray;
-  }
-
+.CategoryBox::-webkit-scrollbar-thumb {
+  height: 3px;
+  border-radius: 5px;
+  background-color: gray;
+}
 
 body {
   background-color: #f3f2fa;
+}
+
+.slick-slide {
+  max-width: 450px;
+}
+
+/*  Rollover image styles  */
+.figure {
+  position: relative;
+  max-width: 100%;
+  cursor: pointer;
+}
+.figure img.Sirv.image-hover {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.figure:hover img.Sirv.image-hover {
+  opacity: 1;
 }

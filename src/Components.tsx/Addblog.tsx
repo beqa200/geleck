@@ -1,10 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import ReactInputMask from "react-input-mask";
-import { useNavigate } from "react-router-dom";
-
-//pushis testi
-
+import { Context } from "./Context";
 
 interface chosencategory {
   category: string;
@@ -27,21 +24,17 @@ function Addblog() {
     setValue,
     watch,
   } = useForm<Inputs>();
+  const context = Context();
   const [categoryMenu, setCategoryMenu] = useState<boolean>(false);
   const [chosenCategory, setChosenCategory] = useState<chosencategory[]>([]);
   const imgUpload = useRef<HTMLInputElement>(null);
   const [imgName, setImgName] = useState<string | undefined>("");
-  const [submited, setSubmited] = useState<boolean>(true);
   const [categoryErr, setCategoryErr] = useState<boolean>(true);
   const [emptyAut, setEmptyAut] = useState<boolean>(true);
   const [length, setLength] = useState<boolean>(true);
   const [twoWord, setTwoWord] = useState<boolean>(true);
   const [georgian, setGeorgian] = useState<boolean>(true);
   const author = useRef<any>();
-
-  const [post, setPost] = useState<boolean>(false);
-
-  const navigate = useNavigate();
 
   const Submit: SubmitHandler<Inputs> = (data: any) => {
     console.log(data);
@@ -61,9 +54,10 @@ function Addblog() {
     localStorage.setItem("data", "");
     localStorage.setItem("category", "");
     localStorage.setItem("email", "");
-    setSubmited(false);
+    localStorage.setItem("item", "false");
+    context?.setDone(true);
+    context?.setSubmited(false);
   });
-  console.log(submited);
 
   useEffect(() => {
     (async () => {
@@ -77,7 +71,7 @@ function Addblog() {
         }
       );
       const data = await resposne.json();
-      console.log(data);
+      // console.log(data);
     })();
 
     let authorValue = localStorage.getItem("author");
@@ -92,12 +86,13 @@ function Addblog() {
     if (emailValue) setValue("email", emailValue);
     let categoryValue = localStorage.getItem("category");
     if (categoryValue) setChosenCategory(JSON.parse(categoryValue));
-    setSubmited(false);
+    context?.setSubmited(false);
   }, []);
 
   useEffect(() => {
     chosenCategory.length == 0 ? setCategoryErr(true) : setCategoryErr(false);
-   if(chosenCategory.length > 0) localStorage.setItem("category", JSON.stringify(chosenCategory));
+    if (chosenCategory.length > 0)
+      localStorage.setItem("category", JSON.stringify(chosenCategory));
   }, [chosenCategory]);
 
   useEffect(() => {
@@ -116,15 +111,12 @@ function Addblog() {
     localStorage.setItem("email", watch("email"));
   }, [watch("email")]);
 
-  // if (author.current) {
   useEffect(() => {
     localStorage.setItem("author", author.current?.value);
   }, [author.current?.value]);
-  // }
 
   useEffect(() => {
     if (author.current.value) {
-      // console.log(author.current.value);
       setEmptyAut(false);
       if (author.current.value.length < 4) {
         setLength(true);
@@ -142,13 +134,12 @@ function Addblog() {
         setGeorgian(false);
       }
     } else {
-      console.log("all err");
       setEmptyAut(true);
       setGeorgian(true);
       setTwoWord(true);
       setLength(true);
     }
-  }, [submited]);
+  }, [context?.submited]);
 
   return (
     <>
@@ -165,7 +156,9 @@ function Addblog() {
               localStorage.setItem("data", "");
               localStorage.setItem("category", "");
               localStorage.setItem("email", "");
-              setSubmited(false);
+              localStorage.setItem("item", "false");
+              context?.setDone(true);
+              context?.setSubmited(false);
             }}
           />
         </button>
@@ -224,13 +217,13 @@ function Addblog() {
                 ავტორი *
                 <div
                   className={`w-[288px] h-[44px] ${
-                    submited
+                    context?.submited
                       ? emptyAut || length || twoWord || !georgian
                         ? "bg-[#ea191933]"
                         : "bg-[#14d81c33]"
                       : "bg-[#FCFCFD]"
                   } border border-solid ${
-                    submited
+                    context?.submited
                       ? emptyAut || length || twoWord || !georgian
                         ? "border-[#EA1919]"
                         : "border-[#14D81C]"
@@ -243,11 +236,9 @@ function Addblog() {
                     id="author"
                     placeholder="შეიყვნეთ ავტორი"
                     ref={author}
-                    // value={authorValue?authorValue:""}
                     onChange={(e) => {
                       localStorage.setItem("author", e.target.value);
                       if (e.target.value) {
-                        console.log(author.current.value);
                         setEmptyAut(false);
                         if (e.target.value.length < 4) {
                           setLength(true);
@@ -265,7 +256,6 @@ function Addblog() {
                           setGeorgian(false);
                         }
                       } else {
-                        console.log("all err");
                         setEmptyAut(true);
                         setGeorgian(true);
                         setTwoWord(true);
@@ -277,7 +267,7 @@ function Addblog() {
                 <ul className="list-disc text-[12px] text-[#85858D] pl-[20px] font-normal ">
                   <li
                     className={`${
-                      submited
+                      context?.submited
                         ? emptyAut || length
                           ? "text-[#EA1919]"
                           : "text-[#14D81C]"
@@ -288,7 +278,7 @@ function Addblog() {
                   </li>
                   <li
                     className={`${
-                      submited
+                      context?.submited
                         ? emptyAut || twoWord
                           ? "text-[#EA1919]"
                           : "text-[#14D81C]"
@@ -299,7 +289,7 @@ function Addblog() {
                   </li>
                   <li
                     className={`${
-                      submited
+                      context?.submited
                         ? emptyAut || !georgian
                           ? "text-[#EA1919]"
                           : "text-[#14D81C]"
@@ -322,14 +312,14 @@ function Addblog() {
                 სათური *
                 <div
                   className={` w-[288px] h-[44px] ${
-                    submited
+                    context?.submited
                       ? errors.tittle?.type == "required" ||
                         errors.tittle?.type == "minLength"
                         ? "bg-[#ea191933]"
                         : "bg-[#14d81c33]"
                       : "bg-[#FCFCFD]"
                   } border border-solid ${
-                    submited
+                    context?.submited
                       ? errors.tittle?.type == "required" ||
                         errors.tittle?.type == "minLength"
                         ? "border-[#EA1919]"
@@ -340,16 +330,14 @@ function Addblog() {
                   <input
                     className="appearance-none bg-transparent outline-none w-[100%] text-[14px] text-[#1A1A1F] font-normal "
                     type="text"
-                    // name="tittle"
                     id="tittle"
                     placeholder="შეიყვნეთ სათაური"
-                    // value={tittleValue?tittleValue:""}
                     {...register("tittle", { required: true, minLength: 2 })}
                   />
                 </div>
                 <p
                   className={`text-[12px] ${
-                    submited
+                    context?.submited
                       ? errors.tittle?.type == "required" ||
                         errors.tittle?.type == "minLength"
                         ? "text-[#EA1919]"
@@ -372,14 +360,14 @@ function Addblog() {
             <textarea
               style={{ resize: "none" }}
               className={`w-[100%] h-[124px] flex items-start ${
-                submited
+                context?.submited
                   ? errors.describe?.type == "required" ||
                     errors.describe?.type == "minLength"
                     ? "bg-[#ea191933]"
                     : "bg-[#14d81c33]"
                   : "bg-[#FCFCFD]"
               } border border-solid ${
-                submited
+                context?.submited
                   ? errors.describe?.type == "required" ||
                     errors.describe?.type == "minLength"
                     ? "border-[#EA1919]"
@@ -387,13 +375,11 @@ function Addblog() {
                   : " border-[#E4E3EB]"
               } px-[16px] py-[12px] text-[14px] text-[#1A1A1F] rounded-[12px] appearance-none outline-none `}
               placeholder="შეიყვნეთ აღწერა"
-              // value={describeValue?describeValue:""}
               {...register("describe", { required: true, minLength: 2 })}
-              //   onChange={(e) => console.log(e.target.value)}
             />
             <p
               className={`text-[12px] ${
-                submited
+                context?.submited
                   ? errors.describe?.type == "required" ||
                     errors.describe?.type == "minLength"
                     ? "text-[#EA1919]"
@@ -415,14 +401,14 @@ function Addblog() {
               გამოქვეყნების თარიღი *
               <div
                 className={`w-[288px] h-[44px] flex gap-[12px] ${
-                  submited
+                  context?.submited
                     ? errors.data?.type == "required" ||
                       errors.data?.type == "minLength"
                       ? "bg-[#ea191933]"
                       : "bg-[#14d81c33]"
                     : "bg-[#FCFCFD]"
                 } border border-solid ${
-                  submited
+                  context?.submited
                     ? errors.data?.type == "required" ||
                       errors.data?.type == "minLength"
                       ? "border-[#EA1919]"
@@ -439,7 +425,6 @@ function Addblog() {
                   mask={"99.99.9999"}
                   maskChar={null}
                   className="text-[14px] text-[#1A1A1F] appearance-none bg-transparent outline-none "
-                  // value={dataValue?dataValue:""}
                   {...register("data", { required: true, minLength: 10 })}
                 />
               </div>
@@ -454,13 +439,13 @@ function Addblog() {
               კატეგორია *
               <div
                 className={` flex items-center w-[288px] h-[44px] ${
-                  submited
+                  context?.submited
                     ? categoryErr
                       ? "bg-[#ea191933]"
                       : "bg-[#14d81c33]"
                     : "bg-[#FCFCFD]"
                 } border border-solid ${
-                  submited
+                  context?.submited
                     ? categoryErr
                       ? "border-[#EA1919]"
                       : "border-[#14D81C]"
@@ -472,13 +457,27 @@ function Addblog() {
                     return (
                       <>
                         <div
-                          className={` ${item.category == "ხელოვნური ინტელექტი"?"min-w-[210px]": item.category == "მარკეტი"?"min-w-[107px]":item.category == "აპლიკაცია"?"min-w-[121px]":item.category == "UI/UX"?"min-w-[89PX]":item.category == "კვლევა"?"min-w-[101px]":"min-w-[88px]"} flex gap-[8px] items-center px-[12px]  bg-[${item.color}] rounded-[30px] `}
+                          className={` ${
+                            item.category == "ხელოვნური ინტელექტი"
+                              ? "min-w-[210px]"
+                              : item.category == "მარკეტი"
+                              ? "min-w-[107px]"
+                              : item.category == "აპლიკაცია"
+                              ? "min-w-[121px]"
+                              : item.category == "UI/UX"
+                              ? "min-w-[89PX]"
+                              : item.category == "კვლევა"
+                              ? "min-w-[101px]"
+                              : "min-w-[88px]"
+                          } flex gap-[8px] items-center px-[12px]  bg-[${
+                            item.color
+                          }] rounded-[30px] `}
                         >
                           <p className=" w-[100%] text-[12px] text-center text-[#FFF] font-medium ">
                             {item.category}
                           </p>
                           <img
-                            className="w-[16px] h-[16px] "
+                            className="w-[16px] h-[16px] cursor-pointer"
                             src="/images/add.svg"
                             alt="delete-categroy"
                             onClick={() =>
@@ -495,8 +494,8 @@ function Addblog() {
                   })}
                 </div>
                 <img
-                  className="w-[20px] h-[20px] ml-[5px] cursor-pointer "
-                  src="/assets/arrow-down.svg"
+                  className="w-[20px] h-[20px] ml-[5px] cursor-pointer"
+                  src="/images/arrow-down.svg"
                   alt="category-open"
                   onClick={() => setCategoryMenu(!categoryMenu)}
                 />
@@ -513,13 +512,13 @@ function Addblog() {
             ელ-ფოსტა
             <div
               className={`w-[288px] h-[44px] ${
-                submited
+                context?.submited
                   ? errors.email?.type == "pattern"
                     ? "bg-[#ea191933]"
                     : "bg-[#14d81c33]"
                   : "bg-[#FCFCFD]"
               } border border-solid ${
-                submited
+                context?.submited
                   ? errors.email?.type == "pattern"
                     ? "border-[#EA1919]"
                     : "border-[#14D81C]"
@@ -574,8 +573,7 @@ function Addblog() {
                 : "bg-[#E4E3EB]"
             } rounded-[8px] mt-[40px] ml-[312px] `}
             onClick={() => {
-              // console.log(Submit);
-              setSubmited(true);
+              context?.setSubmited(true);
               errors.email?.type != "pattern" &&
               !categoryErr &&
               errors.data?.type != "required" &&
@@ -588,7 +586,7 @@ function Addblog() {
               !twoWord &&
               georgian &&
               !emptyAut
-                ? setPost(true)
+                ? context?.setPost(true)
                 : null;
             }}
           >
@@ -604,13 +602,17 @@ function Addblog() {
           >
             <div className="flex gap-[8px]">
               <div
-                className={` px-[16px] py-[8px] cursor-pointer ${
-                  chosenCategory.find((element) => element.category == "მარკეტი")
+                className={` px-[16px] py-[8px] cursor-pointer  ${
+                  chosenCategory.find(
+                    (element) => element.category == "მარკეტი"
+                  )
                     ? "bg-[#FFB82F] text-[#FFF]"
-                    : "bg-[#FFB82F14] text-[#D6961C]"
+                    : "bg-[#FFB82F14] text-[#D6961C] hover:bg-[#ffb82f7f] hover:text-white"
                 } rounded-[30px] `}
                 onClick={
-                  chosenCategory.find((element) => element.category == "მარკეტი")
+                  chosenCategory.find(
+                    (element) => element.category == "მარკეტი"
+                  )
                     ? () => {}
                     : () => {
                         setChosenCategory([
@@ -628,7 +630,7 @@ function Addblog() {
                     (element) => element.category == "აპლიკაცია"
                   )
                     ? "bg-[#1AC7A8] text-[#FFF]"
-                    : "bg-[#1CD67D14] text-[#15C972]"
+                    : "bg-[#1CD67D14] text-[#15C972] hover:bg-[#1ac7a87f] hover:text-white"
                 } rounded-[30px] `}
                 onClick={
                   chosenCategory.find(
@@ -652,7 +654,7 @@ function Addblog() {
                   (element) => element.category == "ხელოვნური ინტელექტი"
                 )
                   ? "bg-[#B71FDD] text-[#FFF]"
-                  : "bg-[#B11CD614] text-[#B71FDD]"
+                  : "bg-[#B11CD614] text-[#B71FDD] hover:bg-[#b71fdd7f] hover:text-white"
               } rounded-[30px] `}
               onClick={
                 chosenCategory.find(
@@ -676,7 +678,7 @@ function Addblog() {
                 className={`px-[16px] py-[8px] cursor-pointer ${
                   chosenCategory.find((element) => element.category == "UI/UX")
                     ? "bg-[#DC2828] text-[#FFF]"
-                    : "bg-[#FA575714] text-[#DC2828]"
+                    : "bg-[#FA575714] text-[#DC2828] hover:bg-[#dc28287f] hover:text-white"
                 } rounded-[30px]`}
                 onClick={
                   chosenCategory.find((element) => element.category == "UI/UX")
@@ -695,7 +697,7 @@ function Addblog() {
                 className={`px-[16px] py-[8px] cursor-pointer ${
                   chosenCategory.find((element) => element.category == "კვლევა")
                     ? "bg-[#60BE16] text-[#FFF]"
-                    : "bg-[#70CF2514] text-[#60BE16]"
+                    : "bg-[#70CF2514] text-[#60BE16] hover:bg-[#60be167f] hover:text-white"
                 } rounded-[30px]`}
                 onClick={
                   chosenCategory.find((element) => element.category == "კვლევა")
@@ -714,7 +716,7 @@ function Addblog() {
                 className={`px-[16px] py-[8px] cursor-pointer ${
                   chosenCategory.find((element) => element.category == "Figma")
                     ? "bg-[#1AC7A8] text-[#FFF]"
-                    : "bg-[#08D2AE14] text-[#1AC7A8]"
+                    : "bg-[#08D2AE14] text-[#1AC7A8] hover:bg-[#1ac7a87f] hover:text-white"
                 } rounded-[30px]`}
                 onClick={
                   chosenCategory.find((element) => element.category == "Figma")
@@ -744,50 +746,6 @@ function Addblog() {
             setImgName(e.target.value);
           }}
         />
-        <div
-          className={`w-[100vw] h-[100%] bg-[#00000078] flex items-center justify-center absolute top-0 left-0 ${
-            post ? "" : "hidden"
-          } `}
-        >
-          <div
-            className={`w-[480px] h-[300px] flex flex-col items-center bg-[#FFF] px-[24px] pb-[40px] pt-[20px]   rounded-[12px] `}
-          >
-            <div className="w-[100%] flex justify-end mb-[20px]">
-              <img
-                className="w-[24px] h-[24px] "
-                src="/images/black-cross.svg"
-                alt=""
-                onClick={() => setPost(false)}
-              />
-            </div>
-            <img
-              className="mb-[16px]"
-              src="/images/tick-circle.svg"
-              alt="accepted"
-            />
-            <h1 className="text-[20px] text-[#1A1A1F] font-bold  mb-[48px] ">
-              ჩანაწი წარმატებით დაემატა
-            </h1>
-            <button
-              className="w-[100%] py-[10px] flex justify-center bg-[#5D37F3] rounded-[8px] cursor-pointer "
-              onClick={() => {
-                navigate("/home"),
-                  setPost(false),
-                  localStorage.setItem("author", "");
-                localStorage.setItem("tittle", "");
-                localStorage.setItem("describe", "");
-                localStorage.setItem("data", "");
-                localStorage.setItem("category", "");
-                localStorage.setItem("email", "");
-                setSubmited(false);
-              }}
-            >
-              <p className="text-[14px] text-[#FFF] ">
-                მთავარ გვერდზე დაბრუნება
-              </p>
-            </button>
-          </div>
-        </div>
       </section>
     </>
   );

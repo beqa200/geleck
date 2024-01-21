@@ -8,16 +8,30 @@ interface categoryProps {
 }
 
 interface dataProps {
+  large: string;
   id: number;
   image: string;
   author: string;
   month: string;
   title: string;
   paragraph: string;
+  email: string;
   category?: categoryProps[];
 }
 
 interface ContextInt {
+  submited: boolean;
+  setSubmited: (submited: boolean) => void;
+  post: boolean;
+  setPost: (post: boolean) => void;
+  hidden: boolean;
+  setHidden: (hidden: boolean) => void;
+  save: boolean;
+  setSave: (save: boolean) => void;
+  done: boolean;
+  setDone: (done: boolean) => void;
+  email: boolean;
+  setEmail: (email: boolean) => void;
   button: boolean;
   setButton: (button: boolean) => void;
   data: dataProps[];

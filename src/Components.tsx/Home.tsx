@@ -1,15 +1,14 @@
-import blogImage from "../../public/assets/blog.png";
-import arrow from "../../public/assets/blue-arrow.svg";
+import blogImage from "../../public/images/blog.png";
+import arrow from "../../public/images/blue-arrow.svg";
 import { useContext } from "react";
 import { Mycontext } from "./Context";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
 function Home() {
   const navigate = useNavigate();
   const context = useContext(Mycontext);
-  // const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
-  // const [isButtonClicked, setIsButtonClicked] = useState<boolean>(false);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   const handleButtonClick = (category: string) => {
@@ -41,60 +40,60 @@ function Home() {
         ;{/* here is button filter section */}
         <div className="flex justify-center items-center gap-[24px] mt-[64px]">
           <button
-            className={`w-[83px] h-[32px] bg-[#ffb82f14] rounded-[30px] text-[#D6961C] text-[12px] font-medium px-[16px] py-[8px] ${
+            className={`w-[83px] h-[32px] rounded-[30px] text-[#D6961C] text-[12px] font-medium px-[16px] py-[8px] ${
               selectedCategories.includes("მარკეტი")
-                ? "border border-solid border-[#000000]"
-                : ""
+                ? "bg-[#ffba2fdd] text-white border border-solid border-[#000000]"
+                : "text-[#D6961C] border-none hover:bg-[#febe3f] bg-[#ffb82f14] hover:text-white transition-transform transform hover:scale-110"
             }`}
             onClick={() => handleButtonClick("მარკეტი")}
           >
             მარკეტი
           </button>
           <button
-            className={`w-[97px] h-[32px] justify-center bg-[#1cd67d14] rounded-[30px] text-[#15C972] text-[12px] font-medium px-[16px] py-[8px] ${
+            className={`w-[97px] h-[32px] justify-center rounded-[30px] text-[#15C972] text-[12px] font-medium px-[16px] py-[8px] ${
               selectedCategories.includes("აპლიკაცია")
-                ? "border border-solid border-[#000000]"
-                : ""
+                ? "bg-[#1ac7a7ec] text-white border border-solid border-[#000000]"
+                : "border-none hover:bg-[#1ac7a7ef] bg-[#1cd67d14]  hover:text-white transition-transform transform hover:scale-110"
             }`}
             onClick={() => handleButtonClick("აპლიკაცია")}
           >
             აპლიკაცია
           </button>
           <button
-            className={`w-[178px] h-[32px] bg-[#EEE1F7] rounded-[30px] text-[#B71FDD] text-[11px] font-medium px-[16px] py-[8px] ${
+            className={`w-[178px] h-[32px] rounded-[30px] text-[#B71FDD] text-[11px] font-medium px-[16px] py-[8px] ${
               selectedCategories.includes("ხელოვნური ინტელექტი")
-                ? "border border-solid border-[#000000]"
-                : ""
+                ? "bg-[#b422d8d4] text-white border border-solid border-[#000000]"
+                : "border-none hover:bg-[#b422d8d4] bg-[#EEE1F7] hover:text-white transition-transform transform hover:scale-110"
             }`}
             onClick={() => handleButtonClick("ხელოვნური ინტელექტი")}
           >
             ხელოვნური ინტელექტი
           </button>
           <button
-            className={`w-[65px] h-[32px] bg-[#fa575714] rounded-[30px] text-[#DC2828] text-[12px] font-medium px-[16px] py-[8px] ${
+            className={`w-[65px] h-[32px] rounded-[30px] text-[#DC2828] text-[12px] font-medium px-[16px] py-[8px] ${
               selectedCategories.includes("UI/UX")
-                ? "border border-solid border-[#000000]"
-                : ""
+                ? "bg-[#ff0000df] text-white border border-solid border-[#000000]"
+                : "border-none hover:bg-[#ff0000df] bg-[#fa575714] hover:text-white transition-transform transform hover:scale-110"
             }`}
             onClick={() => handleButtonClick("UI/UX")}
           >
             UI/UX
           </button>
           <button
-            className={`w-[77px] h-[32px] bg-[#E9EFE9] rounded-[30px] text-[#60BE16] text-[12px] font-medium px-[16px] py-[8px] ${
+            className={`w-[77px] h-[32px] rounded-[30px] text-[#60BE16] text-[12px] font-medium px-[16px] py-[8px] ${
               selectedCategories.includes("კვლევა")
-                ? "border border-solid border-[#000000]"
-                : ""
+                ? "bg-[#5fbe16ee] text-white border border-solid border-[#000000]"
+                : "border-none hover:bg-[#5fbe16dd] bg-[#E9EFE9]  hover:text-white transition-transform transform hover:scale-110"
             }`}
             onClick={() => handleButtonClick("კვლევა")}
           >
             კვლევა
           </button>
           <button
-            className={`w-[64px] h-[32px] bg-[#08d2ae14] rounded-[30px] text-[#1AC7A8] text-[12px] font-medium px-[16px] py-[8px] ${
+            className={`w-[64px] h-[32px] rounded-[30px] text-[#1AC7A8] text-[12px] font-medium px-[16px] py-[8px] ${
               selectedCategories.includes("Figma")
-                ? "border border-solid border-[#000000]"
-                : ""
+                ? "bg-[#1ac7a7e2] text-white border border-solid border-[#000000]"
+                : "border-none hover:bg-[#1ac7a7e2] bg-[#08d2ae14] hover:text-white transition-transform transform hover:scale-110"
             }`}
             onClick={() => handleButtonClick("Figma")}
           >
@@ -102,7 +101,7 @@ function Home() {
           </button>
         </div>
         {/* here i make components div */}
-        <div className="flex flex-wrap justify-evenly items-center mx-[76px] gap-x-[32px] gap-y-[56px] mb-[50px]">
+        <div className="flex flex-wrap items-center mr-[76px] ml-[100px] gap-x-[32px] gap-y-[56px] mb-[50px]">
           {filteredData?.map((item, index) => (
             <div className="w-[408px] mt-[64px]" key={index}>
               <img src={item.image} alt="here is component images" />
@@ -120,18 +119,19 @@ function Home() {
                 </h2>
                 <div className="mt-[16px] flex flex-wrap  items-center gap-[16px]">
                   {item.category?.map((itemCategory, number) => (
-                    <div
+                    <StyledButtons
                       key={number}
-                      className={`flex justify-center items-center text-${itemCategory.text_color} bg-${itemCategory.background_color} rounded-[30px] px-[10px] py-[8px] text-[12px] font-medium`}
+                      text={itemCategory.text_color}
+                      background={itemCategory.background_color}
                     >
                       {itemCategory.name}
-                    </div>
+                    </StyledButtons>
                   ))}
                 </div>
                 <p className="text-[#404049] text-[1.7ch] font-normal mt-[16px] ">
-                  {item.paragraph}
+                  {item.paragraph.slice(0, 86) + "..."}
                 </p>
-                <div className="flex items-center mt-[16px] cursor-pointer">
+                <div className="flex items-center mt-[16px] cursor-pointer transition-transform transform hover:scale-110">
                   <p
                     className="text-[#5D37F3] text-[14px] font-medium"
                     onClick={() => {
@@ -140,7 +140,7 @@ function Home() {
                   >
                     სრულად ნახვა
                   </p>
-                  <img src={arrow} alt="" />
+                  <img src={arrow} alt="arrow image" />
                 </div>
               </div>
             </div>
@@ -152,3 +152,17 @@ function Home() {
 }
 
 export default Home;
+
+interface StyledProps {
+  text: string;
+  background: string;
+}
+
+const StyledButtons = styled.div<StyledProps>`
+  border-radius: 30px;
+  padding: 6px 10px;
+  background-color: ${({ background }) => background};
+  color: ${({ text }) => text};
+  font-size: 12px;
+  font-weight: 500;
+`;
