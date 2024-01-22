@@ -4,14 +4,23 @@ import ReactInputMask from "react-input-mask";
 import { Context } from "./Context";
 
 interface chosencategory {
-  category: string;
-  color: string;
+  title: string;
+  background_color: string;
+  op_background:string
 }
+
+
+// interface dataCategoty {
+//   id:number
+//   name: string;
+//   text_color:string;
+//   background_color: string;
+// }
 
 interface Inputs {
   author: string;
-  tittle: string;
-  describe: string;
+  title: string;
+  paragraph: string;
   data: string;
   email: any;
 }
@@ -34,13 +43,15 @@ function Addblog() {
   const [length, setLength] = useState<boolean>(true);
   const [twoWord, setTwoWord] = useState<boolean>(true);
   const [georgian, setGeorgian] = useState<boolean>(true);
+  // const [dataCategoty, setDataCategory] = useState<dataCategoty[]|[]>([])
   const author = useRef<any>();
 
   const Submit: SubmitHandler<Inputs> = (data: any) => {
-    console.log(data);
+   
+    
     localStorage.setItem("author", author.current.value);
-    localStorage.setItem("tittle", data.tittle);
-    localStorage.setItem("describe", data.describe);
+    localStorage.setItem("title", data.title);
+    localStorage.setItem("paragraph", data.paragraph);
     localStorage.setItem("data", data.data);
     localStorage.setItem("email", data.email);
   };
@@ -49,8 +60,8 @@ function Addblog() {
 
   window.addEventListener("popstate", () => {
     localStorage.setItem("author", "");
-    localStorage.setItem("tittle", "");
-    localStorage.setItem("describe", "");
+    localStorage.setItem("title", "");
+    localStorage.setItem("paragraph", "");
     localStorage.setItem("data", "");
     localStorage.setItem("category", "");
     localStorage.setItem("email", "");
@@ -59,27 +70,32 @@ function Addblog() {
     context?.setSubmited(false);
   });
 
+
+  console.log(imgUpload.current?.value)
+
   useEffect(() => {
-    (async () => {
-      const resposne = await fetch(
-        "https://api.blog.redberryinternship.ge/api/blogs",
-        {
-          headers: {
-            Authorization:
-              "Bearer 240d7939d3a9eae1f0794c6ce922ca5162e579b18ec26e9af89bd33aeebb37d9",
-          },
-        }
-      );
-      const data = await resposne.json();
-      // console.log(data);
-    })();
+    // (async () => {
+    //   const resposne = await fetch(
+    //     "https://lingvistus.pythonanywhere.com/api/login/",
+    //     {
+    //       method:"POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({ email: "gigagiorgadze@redberry.ge" }),
+    //     }
+    //   );
+    //   // console.log(resposne)
+    //   const data = await resposne.json();
+    //   console.log(data);
+    // })();
 
     let authorValue = localStorage.getItem("author");
     if (authorValue) author.current.value = authorValue;
-    let tittleValue = localStorage.getItem("tittle");
-    if (tittleValue) setValue("tittle", tittleValue);
-    let describeValue = localStorage.getItem("describe");
-    if (describeValue) setValue("describe", describeValue);
+    let titleValue = localStorage.getItem("title");
+    if (titleValue) setValue("title", titleValue);
+    let describeValue = localStorage.getItem("paragraph");
+    if (describeValue) setValue("paragraph", describeValue);
     let dataValue = localStorage.getItem("data");
     if (dataValue) setValue("data", dataValue);
     let emailValue = localStorage.getItem("email");
@@ -93,15 +109,18 @@ function Addblog() {
     chosenCategory.length == 0 ? setCategoryErr(true) : setCategoryErr(false);
     if (chosenCategory.length > 0)
       localStorage.setItem("category", JSON.stringify(chosenCategory));
+      // let arr:dataCategoty[] = []
+      // chosenCategory?.forEach((element,index) => arr.push({id:index +1,name:element.title,text_color:element.background_color,background_color:element.op_background}) )
+      // setDataCategory(arr)
   }, [chosenCategory]);
 
   useEffect(() => {
-    localStorage.setItem("tittle", watch("tittle"));
-  }, [watch("tittle")]);
+    localStorage.setItem("title", watch("title"));
+  }, [watch("title")]);
 
   useEffect(() => {
-    localStorage.setItem("describe", watch("describe"));
-  }, [watch("describe")]);
+    localStorage.setItem("paragraph", watch("paragraph"));
+  }, [watch("paragraph")]);
 
   useEffect(() => {
     localStorage.setItem("data", watch("data"));
@@ -151,8 +170,8 @@ function Addblog() {
             alt="go-back"
             onClick={() => {
               history.back(), localStorage.setItem("author", "");
-              localStorage.setItem("tittle", "");
-              localStorage.setItem("describe", "");
+              localStorage.setItem("title", "");
+              localStorage.setItem("paragraph", "");
               localStorage.setItem("data", "");
               localStorage.setItem("category", "");
               localStorage.setItem("email", "");
@@ -306,22 +325,22 @@ function Addblog() {
 
             <div>
               <label
-                htmlFor="tittle"
+                htmlFor="title"
                 className="text-[14px] text-[#1A1A1F] font-medium  flex flex-col gap-[8px]"
               >
                 სათური *
                 <div
                   className={` w-[288px] h-[44px] ${
                     context?.submited
-                      ? errors.tittle?.type == "required" ||
-                        errors.tittle?.type == "minLength"
+                      ? errors.title?.type == "required" ||
+                        errors.title?.type == "minLength"
                         ? "bg-[#ea191933]"
                         : "bg-[#14d81c33]"
                       : "bg-[#FCFCFD]"
                   } border border-solid ${
                     context?.submited
-                      ? errors.tittle?.type == "required" ||
-                        errors.tittle?.type == "minLength"
+                      ? errors.title?.type == "required" ||
+                        errors.title?.type == "minLength"
                         ? "border-[#EA1919]"
                         : "border-[#14D81C]"
                       : " border-[#E4E3EB]"
@@ -330,16 +349,16 @@ function Addblog() {
                   <input
                     className="appearance-none bg-transparent outline-none w-[100%] text-[14px] text-[#1A1A1F] font-normal "
                     type="text"
-                    id="tittle"
+                    id="title"
                     placeholder="შეიყვნეთ სათაური"
-                    {...register("tittle", { required: true, minLength: 2 })}
+                    {...register("title", { required: true, minLength: 2 })}
                   />
                 </div>
                 <p
                   className={`text-[12px] ${
                     context?.submited
-                      ? errors.tittle?.type == "required" ||
-                        errors.tittle?.type == "minLength"
+                      ? errors.title?.type == "required" ||
+                        errors.title?.type == "minLength"
                         ? "text-[#EA1919]"
                         : "text-[#14D81C]"
                       : " text-[#85858D]"
@@ -361,27 +380,27 @@ function Addblog() {
               style={{ resize: "none" }}
               className={`w-[100%] h-[124px] flex items-start ${
                 context?.submited
-                  ? errors.describe?.type == "required" ||
-                    errors.describe?.type == "minLength"
+                  ? errors.paragraph?.type == "required" ||
+                    errors.paragraph?.type == "minLength"
                     ? "bg-[#ea191933]"
                     : "bg-[#14d81c33]"
                   : "bg-[#FCFCFD]"
               } border border-solid ${
                 context?.submited
-                  ? errors.describe?.type == "required" ||
-                    errors.describe?.type == "minLength"
+                  ? errors.paragraph?.type == "required" ||
+                    errors.paragraph?.type == "minLength"
                     ? "border-[#EA1919]"
                     : "border-[#14D81C]"
                   : " border-[#E4E3EB]"
               } px-[16px] py-[12px] text-[14px] text-[#1A1A1F] rounded-[12px] appearance-none outline-none `}
               placeholder="შეიყვნეთ აღწერა"
-              {...register("describe", { required: true, minLength: 2 })}
+              {...register("paragraph", { required: true, minLength: 2 })}
             />
             <p
               className={`text-[12px] ${
                 context?.submited
-                  ? errors.describe?.type == "required" ||
-                    errors.describe?.type == "minLength"
+                  ? errors.paragraph?.type == "required" ||
+                    errors.paragraph?.type == "minLength"
                     ? "text-[#EA1919]"
                     : "text-[#14D81C]"
                   : " text-[#85858D]"
@@ -458,23 +477,23 @@ function Addblog() {
                       <>
                         <div
                           className={` ${
-                            item.category == "ხელოვნური ინტელექტი"
+                            item.title == "ხელოვნური ინტელექტი"
                               ? "min-w-[210px]"
-                              : item.category == "მარკეტი"
+                              : item.title == "მარკეტი"
                               ? "min-w-[107px]"
-                              : item.category == "აპლიკაცია"
+                              : item.title == "აპლიკაცია"
                               ? "min-w-[121px]"
-                              : item.category == "UI/UX"
+                              : item.title == "UI/UX"
                               ? "min-w-[89PX]"
-                              : item.category == "კვლევა"
+                              : item.title == "კვლევა"
                               ? "min-w-[101px]"
                               : "min-w-[88px]"
                           } flex gap-[8px] items-center px-[12px]  bg-[${
-                            item.color
+                            item.background_color
                           }] rounded-[30px] `}
                         >
                           <p className=" w-[100%] text-[12px] text-center text-[#FFF] font-medium ">
-                            {item.category}
+                            {item.title}
                           </p>
                           <img
                             className="w-[16px] h-[16px] cursor-pointer"
@@ -483,7 +502,7 @@ function Addblog() {
                             onClick={() =>
                               setChosenCategory(
                                 chosenCategory.filter(
-                                  (element) => element.category != item.category
+                                  (element) => element.title != item.title
                                 )
                               )
                             }
@@ -561,10 +580,10 @@ function Addblog() {
               !categoryErr &&
               errors.data?.type != "required" &&
               errors.data?.type != "minLength" &&
-              errors.describe?.type != "required" &&
-              errors.describe?.type != "minLength" &&
-              errors.tittle?.type != "required" &&
-              errors.tittle?.type != "minLength" &&
+              errors.paragraph?.type != "required" &&
+              errors.paragraph?.type != "minLength" &&
+              errors.title?.type != "required" &&
+              errors.title?.type != "minLength" &&
               !length &&
               !twoWord &&
               georgian &&
@@ -578,10 +597,10 @@ function Addblog() {
               !categoryErr &&
               errors.data?.type != "required" &&
               errors.data?.type != "minLength" &&
-              errors.describe?.type != "required" &&
-              errors.describe?.type != "minLength" &&
-              errors.tittle?.type != "required" &&
-              errors.tittle?.type != "minLength" &&
+              errors.paragraph?.type != "required" &&
+              errors.paragraph?.type != "minLength" &&
+              errors.title?.type != "required" &&
+              errors.title?.type != "minLength" &&
               !length &&
               !twoWord &&
               georgian &&
@@ -603,21 +622,21 @@ function Addblog() {
             <div className="flex gap-[8px]">
               <div
                 className={` px-[16px] py-[8px] cursor-pointer  ${
-                  chosenCategory.find(
-                    (element) => element.category == "მარკეტი"
+                  chosenCategory?.find(
+                    (element) => element.title == "მარკეტი"
                   )
                     ? "bg-[#FFB82F] text-[#FFF]"
                     : "bg-[#FFB82F14] text-[#D6961C] hover:bg-[#ffb82f7f] hover:text-white"
                 } rounded-[30px] `}
                 onClick={
-                  chosenCategory.find(
-                    (element) => element.category == "მარკეტი"
+                  chosenCategory?.find(
+                    (element) => element.title == "მარკეტი"
                   )
                     ? () => {}
                     : () => {
                         setChosenCategory([
                           ...chosenCategory,
-                          { category: "მარკეტი", color: "#FFB82F" },
+                          { title: "მარკეტი", background_color: "#FFB82F", op_background:"#ffb82f14" },
                         ]);
                       }
                 }
@@ -626,21 +645,21 @@ function Addblog() {
               </div>
               <div
                 className={`px-[16px] py-[8px] cursor-pointer ${
-                  chosenCategory.find(
-                    (element) => element.category == "აპლიკაცია"
+                  chosenCategory?.find(
+                    (element) => element.title == "აპლიკაცია"
                   )
                     ? "bg-[#1AC7A8] text-[#FFF]"
                     : "bg-[#1CD67D14] text-[#15C972] hover:bg-[#1ac7a87f] hover:text-white"
                 } rounded-[30px] `}
                 onClick={
-                  chosenCategory.find(
-                    (element) => element.category == "აპლიკაცია"
+                  chosenCategory?.find(
+                    (element) => element.title == "აპლიკაცია"
                   )
                     ? () => {}
                     : () => {
                         setChosenCategory([
                           ...chosenCategory,
-                          { category: "აპლიკაცია", color: "#1AC7A8" },
+                          { title: "აპლიკაცია", background_color: "#1AC7A8", op_background:"#1cd67d14" },
                         ]);
                       }
                 }
@@ -650,21 +669,21 @@ function Addblog() {
             </div>
             <div
               className={` w-[190px} px-[16px] py-[8px] cursor-pointer ${
-                chosenCategory.find(
-                  (element) => element.category == "ხელოვნური ინტელექტი"
+                chosenCategory?.find(
+                  (element) => element.title == "ხელოვნური ინტელექტი"
                 )
                   ? "bg-[#B71FDD] text-[#FFF]"
                   : "bg-[#B11CD614] text-[#B71FDD] hover:bg-[#b71fdd7f] hover:text-white"
               } rounded-[30px] `}
               onClick={
-                chosenCategory.find(
-                  (element) => element.category == "ხელოვნური ინტელექტი"
+                chosenCategory?.find(
+                  (element) => element.title == "ხელოვნური ინტელექტი"
                 )
                   ? () => {}
                   : () => {
                       setChosenCategory([
                         ...chosenCategory,
-                        { category: "ხელოვნური ინტელექტი", color: "#B71FDD" },
+                        { title: "ხელოვნური ინტელექტი", background_color: "#B71FDD", op_background:"#b11cd614" },
                       ]);
                     }
               }
@@ -676,17 +695,17 @@ function Addblog() {
             <div className="flex gap-[8px] ">
               <div
                 className={`px-[16px] py-[8px] cursor-pointer ${
-                  chosenCategory.find((element) => element.category == "UI/UX")
+                  chosenCategory?.find((element) => element.title == "UI/UX")
                     ? "bg-[#DC2828] text-[#FFF]"
                     : "bg-[#FA575714] text-[#DC2828] hover:bg-[#dc28287f] hover:text-white"
                 } rounded-[30px]`}
                 onClick={
-                  chosenCategory.find((element) => element.category == "UI/UX")
+                  chosenCategory?.find((element) => element.title == "UI/UX")
                     ? () => {}
                     : () => {
                         setChosenCategory([
                           ...chosenCategory,
-                          { category: "UI/UX", color: "#DC2828" },
+                          { title: "UI/UX", background_color: "#DC2828", op_background:"#fa575714" },
                         ]);
                       }
                 }
@@ -695,17 +714,17 @@ function Addblog() {
               </div>
               <div
                 className={`px-[16px] py-[8px] cursor-pointer ${
-                  chosenCategory.find((element) => element.category == "კვლევა")
+                  chosenCategory?.find((element) => element.title == "კვლევა")
                     ? "bg-[#60BE16] text-[#FFF]"
                     : "bg-[#70CF2514] text-[#60BE16] hover:bg-[#60be167f] hover:text-white"
                 } rounded-[30px]`}
                 onClick={
-                  chosenCategory.find((element) => element.category == "კვლევა")
+                  chosenCategory?.find((element) => element.title == "კვლევა")
                     ? () => {}
                     : () => {
                         setChosenCategory([
                           ...chosenCategory,
-                          { category: "კვლევა", color: "#60BE16" },
+                          { title: "კვლევა", background_color: "#60BE16", op_background:"#70cf2514" },
                         ]);
                       }
                 }
@@ -714,17 +733,17 @@ function Addblog() {
               </div>
               <div
                 className={`px-[16px] py-[8px] cursor-pointer ${
-                  chosenCategory.find((element) => element.category == "Figma")
+                  chosenCategory?.find((element) => element.title == "Figma")
                     ? "bg-[#1AC7A8] text-[#FFF]"
                     : "bg-[#08D2AE14] text-[#1AC7A8] hover:bg-[#1ac7a87f] hover:text-white"
                 } rounded-[30px]`}
                 onClick={
-                  chosenCategory.find((element) => element.category == "Figma")
+                  chosenCategory?.find((element) => element.title == "Figma")
                     ? () => {}
                     : () => {
                         setChosenCategory([
                           ...chosenCategory,
-                          { category: "Figma", color: "#1AC7A8" },
+                          { title: "Figma", background_color: "#1AC7A8", op_background:"#08d2ae14" },
                         ]);
                       }
                 }
