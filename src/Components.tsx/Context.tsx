@@ -12,7 +12,7 @@ interface dataProps {
   id: number;
   image: string;
   author: string;
-  month: string;
+  data: string;
   title: string;
   paragraph: string;
   email: string;

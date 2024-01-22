@@ -111,7 +111,7 @@ function Home() {
                     {item.author}
                   </h3>
                   <p className="text-[#85858D] text-[12px] font-normal mt-[8px]">
-                    {item.month}
+                    {item.data}
                   </p>
                 </div>
                 <h2 className="text-[#1A1A1F] text-[2.2ch] font-medium leading-7 mt-[16px]">
